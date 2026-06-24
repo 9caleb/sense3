@@ -8,89 +8,106 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: white;
-  overflow-x: hidden;
 }
 
-/* VIDEO BACKGROUND */
+/* 背景video */
 .bgVideo {
   position: fixed;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   z-index: -2;
 }
 
-/* overlay */
+/* 暗层 */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.65);
   z-index: -1;
 }
 
-/* container */
+/* 主容器 */
 .container {
-  padding: 40px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 🔥 真正居中 */
+  align-items: center;
+  padding: 30px 20px;
   text-align: center;
 }
 
 /* logo */
 .logo {
-  width: 80px;
-  margin-bottom: 20px;
+  width: 90px;
+  margin-bottom: 25px;
 }
 
-/* title */
+/* 标题 */
 .title {
-  font-size: 22px;
-  letter-spacing: 3px;
-  margin-bottom: 30px;
+  font-size: 26px;
+  letter-spacing: 4px;
+  margin-bottom: 35px;
+}
+
+/* form */
+.form {
+  width: 100%;
+  max-width: 420px;
 }
 
 /* input */
 input {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 15px;
+  padding: 16px;
+  margin-bottom: 18px;
+  border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.06);
   color: white;
-  border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
 }
 
-/* button */
-button {
+/* submit */
+.submitBtn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(to right, #ff3c3c, #8b0000);
+  color: white;
+}
+
+/* tip */
+.tipBtn {
+  margin-top: 18px;
   width: 100%;
   padding: 14px;
-  background: linear-gradient(to right, #ff3c3c, #8b0000);
-  border: none;
-  color: white;
   font-size: 14px;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-/* tip button */
-.tipBtn {
-  margin-top: 15px;
   background: transparent;
   border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 10px;
+  color: white;
 }
 
 /* notes */
 .notes {
-  margin-top: 25px;
-  font-size: 12px;
-  opacity: 0.7;
-  text-align: left;
+  margin-top: 35px;
+  font-size: 13px;
+  opacity: 0.75;
+  max-width: 320px;
+  text-align: center; /* 🔥 居中 */
+  line-height: 1.6;
 }
 
-/* MODAL */
+/* modal */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.9);
+  background: rgba(0,0,0,0.95);
   display: none;
   justify-content: center;
   align-items: center;
@@ -103,8 +120,12 @@ button {
 }
 
 .modal img {
-  width: 80%;
+  width: 75%;
   margin: 15px 0;
+}
+
+.modal input {
+  margin-top: 10px;
 }
 </style>
 
@@ -112,9 +133,9 @@ button {
 
 <body>
 
-<!-- BACKGROUND VIDEO -->
+<!-- 🔥 用 Cloudinary 的 left.mp4 -->
 <video class="bgVideo" autoplay muted loop playsinline>
-  <source src="left.mp4" type="video/mp4">
+  <source src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4" type="video/mp4">
 </video>
 
 <div class="overlay"></div>
@@ -125,17 +146,17 @@ button {
 
   <div class="title">REQUEST A TRACK</div>
 
-  <form id="form">
+  <div class="form">
 
     <input type="text" placeholder="Your Name" required id="name">
     <input type="text" placeholder="Song Artist" required id="artist">
     <input type="text" placeholder="Song Name" required id="song">
 
-    <button type="submit">SUBMIT REQUEST</button>
+    <button class="submitBtn">SUBMIT REQUEST</button>
 
-  </form>
+    <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
 
-  <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
+  </div>
 
   <div class="notes">
     Please request well-known songs or worldwide club tracks.<br>
@@ -146,7 +167,7 @@ button {
 
 </div>
 
-<!-- TIP MODAL -->
+<!-- TIP -->
 <div class="modal" id="tipModal">
 
   <div class="modalContent">
@@ -160,8 +181,8 @@ button {
 
     <img src="qr.png">
 
-    <input type="file" id="receipt">
-    <input type="number" placeholder="Enter amount (RM)" id="amount">
+    <input type="file">
+    <input type="number" placeholder="Enter amount (RM)">
 
     <button onclick="closeTip()">DONE</button>
 
@@ -177,22 +198,6 @@ function openTip() {
 function closeTip() {
   document.getElementById("tipModal").style.display = "none";
 }
-
-/* submit */
-document.getElementById("form").addEventListener("submit", function(e){
-  e.preventDefault();
-
-  const data = {
-    name: document.getElementById("name").value,
-    artist: document.getElementById("artist").value,
-    song: document.getElementById("song").value,
-    tip: document.getElementById("amount").value || 0
-  };
-
-  console.log("submit:", data);
-
-  alert("Request submitted!");
-});
 </script>
 
 </body>
