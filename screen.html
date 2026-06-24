@@ -7,96 +7,105 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  color: white;
   overflow: hidden;
-  background: #040000;
-}
-
-/* 🔥 动态暗红烟雾（保持高级红，不血红） */
-.bg1, .bg2, .bg3 {
-  position: fixed;
-  width: 200%;
-  height: 200%;
-  top: -50%;
-  left: -50%;
-  filter: blur(120px);
-  z-index: 0;
-}
-
-.bg1 {
-  background:
-    radial-gradient(circle at 30% 40%, rgba(120,0,0,0.35), transparent 60%),
-    radial-gradient(circle at 70% 60%, rgba(80,0,0,0.35), transparent 60%);
-  animation: move1 14s ease-in-out infinite;
-}
-
-.bg2 {
-  background:
-    radial-gradient(circle at 60% 30%, rgba(100,0,0,0.25), transparent 60%),
-    radial-gradient(circle at 40% 80%, rgba(140,0,0,0.25), transparent 60%);
-  animation: move2 10s ease-in-out infinite;
-}
-
-.bg3 {
-  background:
-    radial-gradient(circle at 50% 50%, rgba(160,0,0,0.2), transparent 70%);
-  animation: wave 6s ease-in-out infinite;
-}
-
-@keyframes move1 {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-8%, -6%); }
-  100% { transform: translate(0,0); }
-}
-
-@keyframes move2 {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(6%, -8%); }
-  100% { transform: translate(0,0); }
-}
-
-@keyframes wave {
-  0% { transform: scale(1) translateX(0); }
-  50% { transform: scale(1.1) translateX(-3%); }
-  100% { transform: scale(1) translateX(0); }
-}
-
-/* grain */
-.noise {
-  position: fixed;
-  width:100%;
-  height:100%;
-  background: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:0.12;
-  z-index:1;
+  background: black;
 }
 
 /* layout */
 .container {
   display: flex;
   height: 100vh;
+}
+
+/* LEFT 38% */
+.left {
+  width: 38%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* LEFT VIDEO */
+.left video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 左边遮罩（让QR清楚） */
+.left::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.35);
+}
+
+/* QR 内容 */
+.leftContent {
   position: relative;
   z-index: 2;
-}
-
-/* LEFT */
-.left {
-  width: 40%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  color: white;
 }
 
-.left img {
-  width: 420px;
+.leftContent img {
+  width: 75%;
 }
 
-.left p {
+.leftContent p {
   margin-top: 20px;
-  font-size: 18px;
   letter-spacing: 2px;
-  opacity: 0.75;
+  opacity: 0.8;
+}
+
+/* RIGHT 62% */
+.right {
+  width: 62%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* RIGHT VIDEO */
+.right video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* feed overlay */
+.feed {
+  position: relative;
+  z-index: 2;
+  color: white;
+  padding: 180px 10% 60px 10%;
+}
+
+/* request */
+.request {
+  margin-bottom: 20px;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.song {
+  margin-top: 8px;
+  font-size: 26px;
+  padding-left: 20px;
+}
+
+.tip {
+  margin-top: 6px;
+  font-size: 14px;
+  color: orange;
 }
 
 /* LOGO */
@@ -106,62 +115,22 @@ body {
   left: 50%;
   transform-style: preserve-3d;
   transform: translateX(-50%) rotateY(0deg);
-  animation: spin3d 12s linear infinite;
-  z-index: 3;
+  animation: spin 12s linear infinite;
+  z-index: 5;
 }
 
 .logo img {
   width: 70px;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,0.25));
 }
 
-@keyframes spin3d {
+@keyframes spin {
   0% { transform: translateX(-50%) rotateY(0deg); }
   100% { transform: translateX(-50%) rotateY(360deg); }
-}
-
-/* RIGHT */
-.right {
-  width: 60%;
-  padding: 200px 120px 60px 160px;
-}
-
-/* request */
-.request {
-  margin-bottom: 30px;
-  animation: fadeIn 0.4s ease;
-}
-
-.name {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.song {
-  margin-top: 10px;
-  font-size: 26px;
-  padding-left: 30px;
-}
-
-.tip {
-  margin-top: 6px;
-  color: #ff8a2b;
-  font-size: 14px;
-}
-
-@keyframes fadeIn {
-  from {opacity:0; transform: translateY(8px);}
-  to {opacity:1; transform: translateY(0);}
 }
 </style>
 </head>
 
 <body>
-
-<div class="bg1"></div>
-<div class="bg2"></div>
-<div class="bg3"></div>
-<div class="noise"></div>
 
 <div class="logo">
   <img src="logo.png">
@@ -169,67 +138,82 @@ body {
 
 <div class="container">
 
+  <!-- LEFT -->
   <div class="left">
-    <img src="qr.png">
-    <p>REQUEST A SONG</p>
+    <video src="left.mp4" autoplay muted loop playsinline></video>
+
+    <div class="leftContent">
+      <img src="qr.png">
+      <p>REQUEST A SONG</p>
+    </div>
   </div>
 
-  <div class="right" id="list"></div>
+  <!-- RIGHT -->
+  <div class="right">
+    <video id="clubVideo" autoplay muted playsinline></video>
+
+    <div class="feed" id="feed"></div>
+  </div>
 
 </div>
 
 <script>
-const palette = [
-  "#ff4d6d","#4da6ff","#b84dff","#ff944d",
-  "#4dff88","#ffd24d","#ff66cc","#66ffff"
-];
-
-const userColorMap = {};
+/* 🔥 右边 video A → B → A */
+const videos = ["club1.mp4", "club2.mp4"];
 let index = 0;
 
-function getColor(name) {
-  if (!userColorMap[name]) {
-    userColorMap[name] = palette[index % palette.length];
-    index++;
-  }
-  return userColorMap[name];
-}
+const video = document.getElementById("clubVideo");
+video.src = videos[index];
+video.play();
 
-let data = [
+video.onended = () => {
+  index = (index + 1) % videos.length;
+  video.src = videos[index];
+  video.play();
+};
+
+/* 🔥 假数据（之后接Firebase） */
+const data = [
   {name:"Dato AK", artist:"Daddy Yankee", song:"Gasolina", tip:200},
   {name:"Amanda", artist:"Nina Sky", song:"Move Your Body"},
   {name:"Boss Iwan", artist:"John Summit", song:"Where You Are"}
 ];
 
-function render() {
-  const list = document.getElementById("list");
-  list.innerHTML = "";
+/* 颜色系统（不会重复） */
+const colors = ["#ff4d6d","#4da6ff","#b84dff","#ff944d","#4dff88","#ffd24d"];
+const map = {};
+let i = 0;
 
-  data.sort((a,b)=>(b.tip||0)-(a.tip||0));
-
-  data.forEach(d => {
-    const div = document.createElement("div");
-    div.className = "request";
-
-    const color = getColor(d.name);
-
-    div.innerHTML = `
-      <div class="name" style="color:${color}">
-        ${d.name} requested:
-      </div>
-
-      <div class="song">
-        ${d.artist} - ${d.song}
-      </div>
-
-      ${d.tip ? `<div class="tip">🔥 RM${d.tip} TIP</div>` : ""}
-    `;
-
-    list.appendChild(div);
-  });
+function getColor(name){
+  if(!map[name]){
+    map[name] = colors[i % colors.length];
+    i++;
+  }
+  return map[name];
 }
 
-render();
+const feed = document.getElementById("feed");
+
+data.sort((a,b)=>(b.tip||0)-(a.tip||0));
+
+data.forEach(d=>{
+  const div = document.createElement("div");
+  div.className = "request";
+
+  div.innerHTML = `
+    <div class="name" style="color:${getColor(d.name)}">
+      ${d.name} requested:
+    </div>
+
+    <div class="song">
+      ${d.artist} - ${d.song}
+    </div>
+
+    ${d.tip ? `<div class="tip">🔥 RM${d.tip} TIP</div>` : ""}
+  `;
+
+  feed.appendChild(div);
+});
 </script>
 
 </body>
