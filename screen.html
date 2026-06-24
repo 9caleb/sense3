@@ -17,14 +17,13 @@ body {
   height: 100vh;
 }
 
-/* LEFT 38% */
+/* LEFT */
 .left {
   width: 38%;
   position: relative;
   overflow: hidden;
 }
 
-/* LEFT VIDEO */
 .left video {
   position: absolute;
   width: 100%;
@@ -32,16 +31,15 @@ body {
   object-fit: cover;
 }
 
-/* 左边遮罩（让QR清楚） */
+/* dark overlay */
 .left::after {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.4);
 }
 
-/* QR 内容 */
 .leftContent {
   position: relative;
   z-index: 2;
@@ -63,22 +61,26 @@ body {
   opacity: 0.8;
 }
 
-/* RIGHT 62% */
+/* RIGHT */
 .right {
   width: 62%;
   position: relative;
   overflow: hidden;
 }
 
-/* RIGHT VIDEO */
-.right video {
+/* dual video (crossfade) */
+.videoLayer {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 0.8s ease;
 }
 
-/* feed overlay */
+#videoA { z-index: 1; opacity: 1; }
+#videoB { z-index: 1; opacity: 0; }
+
+/* feed */
 .feed {
   position: relative;
   z-index: 2;
@@ -103,7 +105,7 @@ body {
 }
 
 .tip {
-  margin-top: 6px;
+  margin-top: 5px;
   font-size: 14px;
   color: orange;
 }
@@ -140,7 +142,7 @@ body {
 
   <!-- LEFT -->
   <div class="left">
-    <video src="left.mp4" autoplay muted loop playsinline></video>
+    <video src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4" autoplay muted loop playsinline></video>
 
     <div class="leftContent">
       <img src="qr.png">
@@ -150,36 +152,50 @@ body {
 
   <!-- RIGHT -->
   <div class="right">
-    <video id="clubVideo" autoplay muted playsinline></video>
+
+    <video id="videoA" class="videoLayer" autoplay muted playsinline></video>
+    <video id="videoB" class="videoLayer" muted playsinline></video>
 
     <div class="feed" id="feed"></div>
+
   </div>
 
 </div>
 
 <script>
-/* 🔥 右边 video A → B → A */
-const videos = ["club1.mp4", "club2.mp4"];
+const sources = [
+  "https://res.cloudinary.com/dbdiasouj/video/upload/v1782338445/club1_bjhygx.mp4",
+  "https://res.cloudinary.com/dbdiasouj/video/upload/v1782338591/club2_bzh58c.mp4"
+];
+
 let index = 0;
+let active = true;
 
-const video = document.getElementById("clubVideo");
-video.src = videos[index];
-video.play();
+const videoA = document.getElementById("videoA");
+const videoB = document.getElementById("videoB");
 
-video.onended = () => {
-  index = (index + 1) % videos.length;
-  video.src = videos[index];
-  video.play();
-};
+videoA.src = sources[0];
+videoA.play();
 
-/* 🔥 假数据（之后接Firebase） */
+videoA.onended = () => switchVideo(videoA, videoB);
+videoB.onended = () => switchVideo(videoB, videoA);
+
+function switchVideo(current, next) {
+  index = (index + 1) % sources.length;
+  next.src = sources[index];
+  next.play();
+
+  next.style.opacity = 1;
+  current.style.opacity = 0;
+}
+
+/* feed */
 const data = [
   {name:"Dato AK", artist:"Daddy Yankee", song:"Gasolina", tip:200},
   {name:"Amanda", artist:"Nina Sky", song:"Move Your Body"},
   {name:"Boss Iwan", artist:"John Summit", song:"Where You Are"}
 ];
 
-/* 颜色系统（不会重复） */
 const colors = ["#ff4d6d","#4da6ff","#b84dff","#ff944d","#4dff88","#ffd24d"];
 const map = {};
 let i = 0;
