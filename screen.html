@@ -31,15 +31,16 @@ body {
   object-fit: cover;
 }
 
-/* dark overlay */
+/* 左边暗一点 */
 .left::after {
   content: "";
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.45);
 }
 
+/* 左边内容 */
 .leftContent {
   position: relative;
   z-index: 2;
@@ -51,14 +52,24 @@ body {
   color: white;
 }
 
-.leftContent img {
-  width: 75%;
+/* 🔥 LOGO 放上面 + 放大 */
+.logoLeft img {
+  width: 110px;
+  margin-bottom: 35px;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
 }
 
+/* QR 稍微小一点 */
+.leftContent img.qr {
+  width: 65%;
+}
+
+/* REQUEST TEXT 放大 */
 .leftContent p {
   margin-top: 20px;
-  letter-spacing: 2px;
-  opacity: 0.8;
+  font-size: 22px;
+  letter-spacing: 3px;
+  opacity: 0.85;
 }
 
 /* RIGHT */
@@ -68,7 +79,7 @@ body {
   overflow: hidden;
 }
 
-/* dual video (crossfade) */
+/* 视频层 */
 .videoLayer {
   position: absolute;
   width: 100%;
@@ -77,8 +88,18 @@ body {
   transition: opacity 0.8s ease;
 }
 
-#videoA { z-index: 1; opacity: 1; }
-#videoB { z-index: 1; opacity: 0; }
+#videoA { opacity: 1; }
+#videoB { opacity: 0; }
+
+/* 🔥 右边整体压暗 */
+.right::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1;
+}
 
 /* feed */
 .feed {
@@ -90,7 +111,7 @@ body {
 
 /* request */
 .request {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .name {
@@ -98,10 +119,17 @@ body {
   font-weight: bold;
 }
 
+/* request 字样白色 */
+.label {
+  color: white;
+  font-weight: normal;
+}
+
 .song {
   margin-top: 8px;
   font-size: 26px;
   padding-left: 20px;
+  color: white;
 }
 
 .tip {
@@ -110,7 +138,7 @@ body {
   color: orange;
 }
 
-/* LOGO */
+/* LOGO animation */
 .logo {
   position: absolute;
   top: 20px;
@@ -134,10 +162,6 @@ body {
 
 <body>
 
-<div class="logo">
-  <img src="logo.png">
-</div>
-
 <div class="container">
 
   <!-- LEFT -->
@@ -145,8 +169,18 @@ body {
     <video src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4" autoplay muted loop playsinline></video>
 
     <div class="leftContent">
-      <img src="qr.png">
+
+      <!-- LOGO -->
+      <div class="logoLeft">
+        <img src="logo.png">
+      </div>
+
+      <!-- QR -->
+      <img class="qr" src="qr.png">
+
+      <!-- TEXT -->
       <p>REQUEST A SONG</p>
+
     </div>
   </div>
 
@@ -164,12 +198,11 @@ body {
 
 <script>
 const sources = [
-  "https://res.cloudinary.com/dbdiasouj/video/upload/v1782338445/club1_bjhygx.mp4",
-  "https://res.cloudinary.com/dbdiasouj/video/upload/v1782338591/club2_bzh58c.mp4"
+  "https://res.cloudinary.com/dbdiasouj/video/upload/v1782338855/club1_zusyai.mp4",
+  "https://res.cloudinary.com/dbdiasouj/video/upload/v1782338941/club2_qumlix.mp4"
 ];
 
 let index = 0;
-let active = true;
 
 const videoA = document.getElementById("videoA");
 const videoB = document.getElementById("videoB");
@@ -217,8 +250,9 @@ data.forEach(d=>{
   div.className = "request";
 
   div.innerHTML = `
-    <div class="name" style="color:${getColor(d.name)}">
-      ${d.name} requested:
+    <div class="name">
+      <span style="color:${getColor(d.name)}">${d.name}</span>
+      <span class="label"> requested:</span>
     </div>
 
     <div class="song">
