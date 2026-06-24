@@ -9,66 +9,65 @@ body {
   font-family: Arial, sans-serif;
   color: white;
   overflow: hidden;
-  background: #050000;
+  background: #020000;
 }
 
-/* 🔥 真正“会动”的烟雾层（多层叠加） */
-.bg1, .bg2, .bg3 {
+/* 🔥 动态流动烟雾（明显在动） */
+.bg {
+  position: fixed;
+  width: 300%;
+  height: 300%;
+  top: -100%;
+  left: -100%;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,0,60,0.25), transparent 40%),
+    radial-gradient(circle at 70% 60%, rgba(180,0,0,0.35), transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(255,40,40,0.2), transparent 50%);
+  filter: blur(100px);
+  animation: flow 12s linear infinite;
+}
+
+@keyframes flow {
+  0% { transform: translate(0,0) rotate(0deg) scale(1); }
+  50% { transform: translate(-10%, -8%) rotate(8deg) scale(1.1); }
+  100% { transform: translate(0,0) rotate(0deg) scale(1); }
+}
+
+/* 波浪层（增强动态） */
+.wave {
   position: fixed;
   width: 200%;
   height: 200%;
   top: -50%;
   left: -50%;
-  filter: blur(120px);
-  opacity: 0.5;
+  background: radial-gradient(circle, rgba(255,0,0,0.15), transparent 60%);
+  z-index: 0;
+  animation: waveMove 6s ease-in-out infinite;
 }
 
-.bg1 {
-  background: radial-gradient(circle, rgba(180,0,0,0.35), transparent 60%);
-  animation: move1 30s ease-in-out infinite;
+@keyframes waveMove {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-5%); }
+  100% { transform: translateX(0); }
 }
 
-.bg2 {
-  background: radial-gradient(circle, rgba(100,0,0,0.4), transparent 60%);
-  animation: move2 45s ease-in-out infinite;
-}
-
-.bg3 {
-  background: radial-gradient(circle, rgba(220,0,0,0.25), transparent 60%);
-  animation: move3 60s ease-in-out infinite;
-}
-
-@keyframes move1 {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-10%, -5%); }
-  100% { transform: translate(0,0); }
-}
-
-@keyframes move2 {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(8%, -8%); }
-  100% { transform: translate(0,0); }
-}
-
-@keyframes move3 {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-6%, 6%); }
-  100% { transform: translate(0,0); }
-}
-
-/* grain texture */
+/* grain */
 .noise {
   position: fixed;
   width:100%;
   height:100%;
   background: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:0.15;
+  opacity:0.1;
+  z-index: 1;
 }
 
 /* layout */
 .container {
   display: flex;
   height: 100vh;
+  position: relative;
+  z-index: 2; /* 🔥 内容在最上面 */
 }
 
 /* LEFT */
@@ -81,29 +80,30 @@ body {
 }
 
 .left img {
-  width: 380px; /* 🔥 再放大 QR */
+  width: 420px; /* 🔥 更大 QR */
 }
 
 .left p {
   margin-top: 20px;
   font-size: 18px;
   letter-spacing: 2px;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* LOGO */
 .logo {
   position: absolute;
-  top: 20px;
+  top: 30px;
   left: 50%;
   transform-style: preserve-3d;
   transform: translateX(-50%) rotateY(0deg);
-  animation: spin3d 16s linear infinite;
+  animation: spin3d 10s linear infinite;
+  z-index: 3;
 }
 
 .logo img {
   width: 70px;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,0.25));
+  filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
 }
 
 @keyframes spin3d {
@@ -114,13 +114,13 @@ body {
 /* RIGHT */
 .right {
   width: 60%;
-  padding: 220px 100px 60px 140px; /* 🔥 往下移远离logo */
+  padding: 200px 120px 60px 160px;
 }
 
 /* request */
 .request {
-  margin-bottom: 35px; /* 🔥 缩小间距 */
-  animation: fadeIn 0.5s ease;
+  margin-bottom: 30px; /* 🔥 缩小间距 */
+  animation: fadeIn 0.4s ease;
 }
 
 .name {
@@ -135,13 +135,13 @@ body {
 }
 
 .tip {
-  margin-top: 6px;
+  margin-top: 5px;
   color: #ff8a2b;
-  font-size: 15px;
+  font-size: 14px;
 }
 
 @keyframes fadeIn {
-  from {opacity:0; transform: translateY(10px);}
+  from {opacity:0; transform: translateY(8px);}
   to {opacity:1; transform: translateY(0);}
 }
 </style>
@@ -149,9 +149,8 @@ body {
 
 <body>
 
-<div class="bg1"></div>
-<div class="bg2"></div>
-<div class="bg3"></div>
+<div class="bg"></div>
+<div class="wave"></div>
 <div class="noise"></div>
 
 <div class="logo">
@@ -170,14 +169,27 @@ body {
 </div>
 
 <script>
-const colors = ["#ff4d6d","#4da6ff","#b84dff","#ff944d","#4dff88"];
-const users = {};
+/* 🔥 固定颜色系统（不会重复） */
+const colorPalette = [
+  "#ff4d6d",
+  "#4da6ff",
+  "#b84dff",
+  "#ff944d",
+  "#4dff88",
+  "#ffd24d",
+  "#ff66cc",
+  "#66ffff"
+];
+
+const userColors = {};
+let colorIndex = 0;
 
 function getColor(name) {
-  if (!users[name]) {
-    users[name] = colors[Math.floor(Math.random()*colors.length)];
+  if (!userColors[name]) {
+    userColors[name] = colorPalette[colorIndex % colorPalette.length];
+    colorIndex++;
   }
-  return users[name];
+  return userColors[name];
 }
 
 let data = [
