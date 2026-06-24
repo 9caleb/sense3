@@ -2,136 +2,197 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Request</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: radial-gradient(circle at 30% 30%, #3a0000, #000);
   color: white;
+  overflow-x: hidden;
 }
 
+/* VIDEO BACKGROUND */
+.bgVideo {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* overlay */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: -1;
+}
+
+/* container */
 .container {
-  max-width: 420px;
-  margin: auto;
-  padding: 30px 20px;
+  padding: 40px 20px;
   text-align: center;
 }
 
+/* logo */
 .logo {
   width: 80px;
-  margin: 20px auto;
-  animation: spin 20s linear infinite;
-  filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-h1 {
-  font-size: 18px;
   margin-bottom: 20px;
 }
 
+/* title */
+.title {
+  font-size: 22px;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+
+/* input */
 input {
   width: 100%;
   padding: 14px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 8px;
-  background: #111;
+  margin-bottom: 15px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
   color: white;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
+/* button */
 button {
   width: 100%;
   padding: 14px;
-  margin-top: 10px;
+  background: linear-gradient(to right, #ff3c3c, #8b0000);
   border: none;
-  border-radius: 8px;
-  background: #b30000;
   color: white;
-  font-weight: bold;
+  font-size: 14px;
+  border-radius: 8px;
+  margin-top: 10px;
 }
 
-.policy {
+/* tip button */
+.tipBtn {
+  margin-top: 15px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* notes */
+.notes {
+  margin-top: 25px;
   font-size: 12px;
-  margin-top: 15px;
-  opacity: 0.6;
+  opacity: 0.7;
+  text-align: left;
 }
 
-.tips {
-  margin-top: 15px;
-  font-size: 13px;
-  opacity: 0.8;
-  cursor: pointer;
-}
-
-.popup {
+/* MODAL */
+.modal {
   position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #000;
-  padding: 20px;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
   display: none;
+  justify-content: center;
+  align-items: center;
 }
 
-.qr {
-  width: 200px;
-  margin: 10px auto;
+.modalContent {
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal img {
+  width: 80%;
+  margin: 15px 0;
 }
 </style>
+
 </head>
 
 <body>
 
+<!-- BACKGROUND VIDEO -->
+<video class="bgVideo" autoplay muted loop playsinline>
+  <source src="left.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
 <div class="container">
+
   <img src="logo.png" class="logo">
 
-  <h1>Request a track</h1>
+  <div class="title">REQUEST A TRACK</div>
 
-  <input id="name" placeholder="Your name">
-  <input id="artist" placeholder="Song artist">
-  <input id="song" placeholder="Song name">
+  <form id="form">
 
-  <button onclick="submit()">Submit</button>
+    <input type="text" placeholder="Your Name" required id="name">
+    <input type="text" placeholder="Song Artist" required id="artist">
+    <input type="text" placeholder="Song Name" required id="song">
 
-  <div class="tips" onclick="showTips()">Skip the queue / Tip</div>
+    <button type="submit">SUBMIT REQUEST</button>
 
-  <div class="policy">
-    Please request well-known songs or worldwide club tracks
+  </form>
+
+  <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
+
+  <div class="notes">
+    Please request well-known songs or worldwide club tracks.<br>
+    Must align with our music policy.<br>
+    We reserve the right to decline any request.<br>
+    Not all requests will be played.
   </div>
+
 </div>
 
-<div class="popup" id="popup">
-  <p>1. Screenshot QR</p>
-  <p>2. Make payment</p>
-  <p>3. Screenshot receipt</p>
-  <p>4. Upload + enter amount</p>
+<!-- TIP MODAL -->
+<div class="modal" id="tipModal">
 
-  <img src="qr.png" class="qr">
+  <div class="modalContent">
 
-  <input id="amount" placeholder="Amount (RM)">
-  <input type="file" id="receipt">
+    <h3>TIP THE DJ</h3>
 
-  <button onclick="closeTips()">Done</button>
+    <p>1. Screenshot QR</p>
+    <p>2. Make payment</p>
+    <p>3. Screenshot receipt</p>
+    <p>4. Upload + enter amount</p>
+
+    <img src="qr.png">
+
+    <input type="file" id="receipt">
+    <input type="number" placeholder="Enter amount (RM)" id="amount">
+
+    <button onclick="closeTip()">DONE</button>
+
+  </div>
+
 </div>
 
 <script>
-function showTips() {
-  document.getElementById("popup").style.display = "block";
+function openTip() {
+  document.getElementById("tipModal").style.display = "flex";
 }
 
-function closeTips() {
-  document.getElementById("popup").style.display = "none";
+function closeTip() {
+  document.getElementById("tipModal").style.display = "none";
 }
 
-function submit() {
-  alert("Submitted (Firebase connect next step)");
-}
+/* submit */
+document.getElementById("form").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    artist: document.getElementById("artist").value,
+    song: document.getElementById("song").value,
+    tip: document.getElementById("amount").value || 0
+  };
+
+  console.log("submit:", data);
+
+  alert("Request submitted!");
+});
 </script>
 
 </body>
