@@ -11,7 +11,7 @@ body {
   overflow: hidden;
 }
 
-/* 🔥 动态红色背景（烟雾 + 流动） */
+/* 🔥 高级暗红动态背景（烟雾感） */
 body::before {
   content: "";
   position: fixed;
@@ -20,29 +20,29 @@ body::before {
   top: -50%;
   left: -50%;
   background:
-    radial-gradient(circle at 30% 30%, rgba(180,0,0,0.4), transparent),
-    radial-gradient(circle at 70% 60%, rgba(120,0,0,0.5), transparent),
-    radial-gradient(circle at 50% 80%, rgba(200,0,0,0.3), transparent),
-    #000;
-  animation: moveBg 25s ease infinite;
+    radial-gradient(circle at 20% 30%, rgba(120,0,0,0.35), transparent),
+    radial-gradient(circle at 80% 60%, rgba(80,0,0,0.4), transparent),
+    radial-gradient(circle at 50% 80%, rgba(150,0,0,0.25), transparent),
+    #050000;
+  filter: blur(120px);
+  animation: bgMove 35s ease-in-out infinite;
   z-index: -2;
-  filter: blur(80px);
 }
 
-@keyframes moveBg {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(-10%, -10%); }
-  100% { transform: translate(0,0); }
+@keyframes bgMove {
+  0% { transform: translate(0,0) scale(1); }
+  50% { transform: translate(-8%, -6%) scale(1.05); }
+  100% { transform: translate(0,0) scale(1); }
 }
 
-/* grain texture */
+/* grain */
 body::after {
   content:"";
   position: fixed;
   width:100%;
   height:100%;
   background: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:0.15;
+  opacity:0.12;
   z-index:-1;
 }
 
@@ -52,7 +52,7 @@ body::after {
   height: 100vh;
 }
 
-/* 左边 QR（40%） */
+/* LEFT 40% */
 .left {
   width: 40%;
   display: flex;
@@ -62,63 +62,62 @@ body::after {
 }
 
 .left img {
-  width: 260px;
+  width: 320px; /* 🔥 QR 放大 */
 }
 
 .left p {
-  margin-top: 15px;
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 18px;
   letter-spacing: 2px;
   opacity: 0.7;
 }
 
-/* 中间 logo */
+/* LOGO（移上去避免压内容） */
 .logo {
   position: absolute;
-  top: 20px;
+  top: 40px; /* 🔥 往上推 */
   left: 50%;
   transform-style: preserve-3d;
   transform: translateX(-50%) rotateY(0deg);
-  animation: rotate3d 12s linear infinite;
+  animation: spin3d 14s linear infinite;
 }
 
 .logo img {
-  width: 80px;
-  filter: drop-shadow(0 0 12px rgba(255,255,255,0.3));
+  width: 70px;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
 }
 
-@keyframes rotate3d {
+@keyframes spin3d {
   0% { transform: translateX(-50%) rotateY(0deg); }
   100% { transform: translateX(-50%) rotateY(360deg); }
 }
 
-/* 右边 feed（60%） */
+/* RIGHT 60% */
 .right {
   width: 60%;
-  padding: 120px 80px;
-  overflow: hidden;
+  padding: 180px 100px 80px 120px; /* 🔥 下移 + 左padding */
 }
 
 /* request */
 .request {
-  margin-bottom: 50px;
-  animation: fadeIn 0.6s ease;
+  margin-bottom: 60px;
+  animation: fadeIn 0.5s ease;
 }
 
 .name {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
 }
 
 .song {
-  margin-top: 12px;
-  font-size: 26px;
-  padding-left: 20px;
+  margin-top: 14px;
+  font-size: 28px;
+  padding-left: 40px;
 }
 
 .tip {
   margin-top: 10px;
-  color: #ff7a00;
+  color: #ff8a2b;
   font-size: 16px;
 }
 
@@ -137,20 +136,19 @@ body::after {
 
 <div class="container">
 
-  <!-- 左 -->
+  <!-- LEFT -->
   <div class="left">
     <img src="qr.png">
     <p>REQUEST A SONG</p>
   </div>
 
-  <!-- 右 -->
+  <!-- RIGHT -->
   <div class="right" id="list"></div>
 
 </div>
 
 <script>
-const colors = ["#ff4d4d","#4da6ff","#b84dff","#ff944d","#4dff88"];
-
+const colors = ["#ff4d6d","#4da6ff","#b84dff","#ff944d","#4dff88"];
 const users = {};
 
 function getColor(name) {
@@ -170,7 +168,6 @@ function render() {
   const list = document.getElementById("list");
   list.innerHTML = "";
 
-  // 🔥 tip priority
   data.sort((a,b)=>(b.tip||0)-(a.tip||0));
 
   data.forEach(d => {
