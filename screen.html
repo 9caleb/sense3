@@ -31,12 +31,11 @@ body {
   object-fit: cover;
 }
 
-/* 左边暗一点 */
+/* 左边暗 */
 .left::after {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0,0,0,0.45);
 }
 
@@ -52,19 +51,19 @@ body {
   color: white;
 }
 
-/* 🔥 LOGO 放上面 + 放大 */
+/* LOGO（更大） */
 .logoLeft img {
   width: 110px;
   margin-bottom: 35px;
   filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
 }
 
-/* QR 稍微小一点 */
-.leftContent img.qr {
+/* QR */
+.qr {
   width: 65%;
 }
 
-/* REQUEST TEXT 放大 */
+/* TEXT */
 .leftContent p {
   margin-top: 20px;
   font-size: 22px;
@@ -79,32 +78,33 @@ body {
   overflow: hidden;
 }
 
-/* 视频层 */
+/* video */
 .videoLayer {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: opacity 0.8s ease;
+  z-index: 1;
 }
 
 #videoA { opacity: 1; }
 #videoB { opacity: 0; }
 
-/* 🔥 右边整体压暗 */
+/* 🔥 修好：覆盖整个右边 */
 .right::after {
   content: "";
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 1;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* feed */
 .feed {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   color: white;
   padding: 180px 10% 60px 10%;
 }
@@ -119,12 +119,6 @@ body {
   font-weight: bold;
 }
 
-/* request 字样白色 */
-.label {
-  color: white;
-  font-weight: normal;
-}
-
 .song {
   margin-top: 8px;
   font-size: 26px;
@@ -136,26 +130,6 @@ body {
   margin-top: 5px;
   font-size: 14px;
   color: orange;
-}
-
-/* LOGO animation */
-.logo {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform-style: preserve-3d;
-  transform: translateX(-50%) rotateY(0deg);
-  animation: spin 12s linear infinite;
-  z-index: 5;
-}
-
-.logo img {
-  width: 70px;
-}
-
-@keyframes spin {
-  0% { transform: translateX(-50%) rotateY(0deg); }
-  100% { transform: translateX(-50%) rotateY(360deg); }
 }
 </style>
 </head>
@@ -169,18 +143,13 @@ body {
     <video src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4" autoplay muted loop playsinline></video>
 
     <div class="leftContent">
-
-      <!-- LOGO -->
       <div class="logoLeft">
         <img src="logo.png">
       </div>
 
-      <!-- QR -->
       <img class="qr" src="qr.png">
 
-      <!-- TEXT -->
       <p>REQUEST A SONG</p>
-
     </div>
   </div>
 
@@ -251,8 +220,7 @@ data.forEach(d=>{
 
   div.innerHTML = `
     <div class="name">
-      <span style="color:${getColor(d.name)}">${d.name}</span>
-      <span class="label"> requested:</span>
+      <span style="color:${getColor(d.name)}">${d.name}:</span>
     </div>
 
     <div class="song">
