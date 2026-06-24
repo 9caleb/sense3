@@ -27,74 +27,79 @@ body {
   z-index: -1;
 }
 
-/* 主体 */
+/* 主布局（🔥 关键） */
 .container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 20px;
+  justify-content: space-between; /* 🔥 上中下 */
+  padding: 40px 20px;
+}
+
+/* 上 */
+.top {
   text-align: center;
 }
 
-/* logo */
 .logo {
-  width: 110px;
-  margin-bottom: 20px;
+  width: 120px;
+  margin-bottom: 15px;
 }
 
-/* 标题 */
 .title {
-  font-size: 28px;
+  font-size: 30px;
   letter-spacing: 4px;
-  margin-bottom: 40px;
 }
 
-/* 表单 */
+/* 中 */
+.middle {
+  width: 100%;
+}
+
 .form {
   width: 100%;
-  max-width: 420px;
 }
 
 input {
   width: 100%;
-  padding: 18px;
-  margin-bottom: 18px;
-  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 14px;
   border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.08);
   color: white;
-  font-size: 17px;
+  font-size: 18px;
 }
 
 /* 按钮 */
 .submitBtn {
   width: 100%;
-  padding: 18px;
-  font-size: 16px;
-  border-radius: 12px;
+  padding: 20px;
+  font-size: 18px;
+  border-radius: 14px;
   background: linear-gradient(to right, #ff3c3c, #8b0000);
   border: none;
 }
 
 .tipBtn {
-  margin-top: 18px;
+  margin-top: 20px;
   width: 100%;
-  padding: 16px;
-  font-size: 15px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.3);
+  padding: 18px;
+  font-size: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.4);
   background: transparent;
-  color: white;
 }
 
-/* notes */
+/* 下 */
+.bottom {
+  text-align: center;
+}
+
 .notes {
-  margin-top: 40px;
   font-size: 14px;
-  opacity: 0.8;
   line-height: 1.8;
+  opacity: 0.8;
 }
 
 /* modal */
@@ -103,23 +108,20 @@ input {
   inset: 0;
   background: rgba(0,0,0,0.95);
   display: none;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 .modalContent {
   width: 90%;
-  max-width: 420px;
   text-align: center;
 }
 
 .modal img {
-  width: 85%;
+  width: 90%;
   margin: 20px 0;
 }
 
-/* modal buttons */
 .modalButtons {
   display: flex;
   gap: 10px;
@@ -128,8 +130,8 @@ input {
 
 .modalButtons button {
   flex: 1;
-  padding: 14px;
-  border-radius: 10px;
+  padding: 16px;
+  border-radius: 12px;
   border: none;
 }
 </style>
@@ -139,41 +141,48 @@ input {
 <body>
 
 <video class="bgVideo" autoplay muted loop playsinline>
-  <source src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4" type="video/mp4">
+  <source src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4">
 </video>
 
 <div class="overlay"></div>
 
 <div class="container">
 
-  <img src="logo.png" class="logo">
-
-  <div class="title">REQUEST A TRACK</div>
-
-  <div class="form">
-
-    <input type="text" placeholder="Your Name" id="name" required>
-    <input type="text" placeholder="Song Artist" id="artist" required>
-    <input type="text" placeholder="Song Name" id="song" required>
-
-    <button class="submitBtn" onclick="submit()">SUBMIT REQUEST</button>
-
-    <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
-
+  <!-- 上 -->
+  <div class="top">
+    <img src="logo.png" class="logo">
+    <div class="title">REQUEST A TRACK</div>
   </div>
 
-  <div class="notes">
-    • Please request well-known songs or worldwide club tracks.<br>
-    • Must align with our music policy.<br>
-    • We reserve the right to decline any request.<br>
-    • Not all requests will be played.
+  <!-- 中 -->
+  <div class="middle">
+    <div class="form">
+
+      <input type="text" placeholder="Your Name" id="name">
+      <input type="text" placeholder="Song Artist" id="artist">
+      <input type="text" placeholder="Song Name" id="song">
+
+      <button class="submitBtn" onclick="submit()">SUBMIT REQUEST</button>
+
+      <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
+
+    </div>
+  </div>
+
+  <!-- 下 -->
+  <div class="bottom">
+    <div class="notes">
+      • Please request well-known songs or worldwide club tracks.<br>
+      • Must align with our music policy.<br>
+      • We reserve the right to decline any request.<br>
+      • Not all requests will be played.
+    </div>
   </div>
 
 </div>
 
 <!-- TIP -->
 <div class="modal" id="tipModal">
-
   <div class="modalContent">
 
     <h2>TIP THE DJ</h2>
@@ -194,19 +203,16 @@ input {
     </div>
 
   </div>
-
 </div>
 
 <script>
 function openTip() {
   document.getElementById("tipModal").style.display = "flex";
 }
-
 function closeTip() {
   document.getElementById("tipModal").style.display = "none";
 }
 
-/* submit */
 function submit(){
   const name = document.getElementById("name");
   const artist = document.getElementById("artist");
@@ -217,12 +223,11 @@ function submit(){
     return;
   }
 
-  alert("Submitted");
-
-  /* 🔥 逻辑 */
   name.disabled = true;
   artist.value = "";
   song.value = "";
+
+  alert("Submitted");
 }
 </script>
 
