@@ -9,47 +9,56 @@ body {
   font-family: Arial, sans-serif;
   color: white;
   overflow: hidden;
-  background: #020000;
+  background: #040000;
 }
 
-/* 🔥 动态流动烟雾（明显在动） */
-.bg {
-  position: fixed;
-  width: 300%;
-  height: 300%;
-  top: -100%;
-  left: -100%;
-  z-index: 0;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,0,60,0.25), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(180,0,0,0.35), transparent 50%),
-    radial-gradient(circle at 50% 80%, rgba(255,40,40,0.2), transparent 50%);
-  filter: blur(100px);
-  animation: flow 12s linear infinite;
-}
-
-@keyframes flow {
-  0% { transform: translate(0,0) rotate(0deg) scale(1); }
-  50% { transform: translate(-10%, -8%) rotate(8deg) scale(1.1); }
-  100% { transform: translate(0,0) rotate(0deg) scale(1); }
-}
-
-/* 波浪层（增强动态） */
-.wave {
+/* 🔥 动态暗红烟雾（保持高级红，不血红） */
+.bg1, .bg2, .bg3 {
   position: fixed;
   width: 200%;
   height: 200%;
   top: -50%;
   left: -50%;
-  background: radial-gradient(circle, rgba(255,0,0,0.15), transparent 60%);
+  filter: blur(120px);
   z-index: 0;
-  animation: waveMove 6s ease-in-out infinite;
 }
 
-@keyframes waveMove {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(-5%); }
-  100% { transform: translateX(0); }
+.bg1 {
+  background:
+    radial-gradient(circle at 30% 40%, rgba(120,0,0,0.35), transparent 60%),
+    radial-gradient(circle at 70% 60%, rgba(80,0,0,0.35), transparent 60%);
+  animation: move1 14s ease-in-out infinite;
+}
+
+.bg2 {
+  background:
+    radial-gradient(circle at 60% 30%, rgba(100,0,0,0.25), transparent 60%),
+    radial-gradient(circle at 40% 80%, rgba(140,0,0,0.25), transparent 60%);
+  animation: move2 10s ease-in-out infinite;
+}
+
+.bg3 {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(160,0,0,0.2), transparent 70%);
+  animation: wave 6s ease-in-out infinite;
+}
+
+@keyframes move1 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-8%, -6%); }
+  100% { transform: translate(0,0); }
+}
+
+@keyframes move2 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(6%, -8%); }
+  100% { transform: translate(0,0); }
+}
+
+@keyframes wave {
+  0% { transform: scale(1) translateX(0); }
+  50% { transform: scale(1.1) translateX(-3%); }
+  100% { transform: scale(1) translateX(0); }
 }
 
 /* grain */
@@ -58,8 +67,8 @@ body {
   width:100%;
   height:100%;
   background: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:0.1;
-  z-index: 1;
+  opacity:0.12;
+  z-index:1;
 }
 
 /* layout */
@@ -67,7 +76,7 @@ body {
   display: flex;
   height: 100vh;
   position: relative;
-  z-index: 2; /* 🔥 内容在最上面 */
+  z-index: 2;
 }
 
 /* LEFT */
@@ -80,30 +89,30 @@ body {
 }
 
 .left img {
-  width: 420px; /* 🔥 更大 QR */
+  width: 420px;
 }
 
 .left p {
   margin-top: 20px;
   font-size: 18px;
   letter-spacing: 2px;
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 /* LOGO */
 .logo {
   position: absolute;
-  top: 30px;
+  top: 20px;
   left: 50%;
   transform-style: preserve-3d;
   transform: translateX(-50%) rotateY(0deg);
-  animation: spin3d 10s linear infinite;
+  animation: spin3d 12s linear infinite;
   z-index: 3;
 }
 
 .logo img {
   width: 70px;
-  filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.25));
 }
 
 @keyframes spin3d {
@@ -119,7 +128,7 @@ body {
 
 /* request */
 .request {
-  margin-bottom: 30px; /* 🔥 缩小间距 */
+  margin-bottom: 30px;
   animation: fadeIn 0.4s ease;
 }
 
@@ -135,7 +144,7 @@ body {
 }
 
 .tip {
-  margin-top: 5px;
+  margin-top: 6px;
   color: #ff8a2b;
   font-size: 14px;
 }
@@ -149,8 +158,9 @@ body {
 
 <body>
 
-<div class="bg"></div>
-<div class="wave"></div>
+<div class="bg1"></div>
+<div class="bg2"></div>
+<div class="bg3"></div>
 <div class="noise"></div>
 
 <div class="logo">
@@ -169,27 +179,20 @@ body {
 </div>
 
 <script>
-/* 🔥 固定颜色系统（不会重复） */
-const colorPalette = [
-  "#ff4d6d",
-  "#4da6ff",
-  "#b84dff",
-  "#ff944d",
-  "#4dff88",
-  "#ffd24d",
-  "#ff66cc",
-  "#66ffff"
+const palette = [
+  "#ff4d6d","#4da6ff","#b84dff","#ff944d",
+  "#4dff88","#ffd24d","#ff66cc","#66ffff"
 ];
 
-const userColors = {};
-let colorIndex = 0;
+const userColorMap = {};
+let index = 0;
 
 function getColor(name) {
-  if (!userColors[name]) {
-    userColors[name] = colorPalette[colorIndex % colorPalette.length];
-    colorIndex++;
+  if (!userColorMap[name]) {
+    userColorMap[name] = palette[index % palette.length];
+    index++;
   }
-  return userColors[name];
+  return userColorMap[name];
 }
 
 let data = [
