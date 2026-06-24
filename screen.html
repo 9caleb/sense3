@@ -9,41 +9,60 @@ body {
   font-family: Arial, sans-serif;
   color: white;
   overflow: hidden;
+  background: #050000;
 }
 
-/* 🔥 高级暗红动态背景（烟雾感） */
-body::before {
-  content: "";
+/* 🔥 真正“会动”的烟雾层（多层叠加） */
+.bg1, .bg2, .bg3 {
   position: fixed;
   width: 200%;
   height: 200%;
   top: -50%;
   left: -50%;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(120,0,0,0.35), transparent),
-    radial-gradient(circle at 80% 60%, rgba(80,0,0,0.4), transparent),
-    radial-gradient(circle at 50% 80%, rgba(150,0,0,0.25), transparent),
-    #050000;
   filter: blur(120px);
-  animation: bgMove 35s ease-in-out infinite;
-  z-index: -2;
+  opacity: 0.5;
 }
 
-@keyframes bgMove {
-  0% { transform: translate(0,0) scale(1); }
-  50% { transform: translate(-8%, -6%) scale(1.05); }
-  100% { transform: translate(0,0) scale(1); }
+.bg1 {
+  background: radial-gradient(circle, rgba(180,0,0,0.35), transparent 60%);
+  animation: move1 30s ease-in-out infinite;
 }
 
-/* grain */
-body::after {
-  content:"";
+.bg2 {
+  background: radial-gradient(circle, rgba(100,0,0,0.4), transparent 60%);
+  animation: move2 45s ease-in-out infinite;
+}
+
+.bg3 {
+  background: radial-gradient(circle, rgba(220,0,0,0.25), transparent 60%);
+  animation: move3 60s ease-in-out infinite;
+}
+
+@keyframes move1 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-10%, -5%); }
+  100% { transform: translate(0,0); }
+}
+
+@keyframes move2 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(8%, -8%); }
+  100% { transform: translate(0,0); }
+}
+
+@keyframes move3 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-6%, 6%); }
+  100% { transform: translate(0,0); }
+}
+
+/* grain texture */
+.noise {
   position: fixed;
   width:100%;
   height:100%;
   background: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:0.12;
-  z-index:-1;
+  opacity:0.15;
 }
 
 /* layout */
@@ -52,7 +71,7 @@ body::after {
   height: 100vh;
 }
 
-/* LEFT 40% */
+/* LEFT */
 .left {
   width: 40%;
   display: flex;
@@ -62,7 +81,7 @@ body::after {
 }
 
 .left img {
-  width: 320px; /* 🔥 QR 放大 */
+  width: 380px; /* 🔥 再放大 QR */
 }
 
 .left p {
@@ -72,19 +91,19 @@ body::after {
   opacity: 0.7;
 }
 
-/* LOGO（移上去避免压内容） */
+/* LOGO */
 .logo {
   position: absolute;
-  top: 40px; /* 🔥 往上推 */
+  top: 20px;
   left: 50%;
   transform-style: preserve-3d;
   transform: translateX(-50%) rotateY(0deg);
-  animation: spin3d 14s linear infinite;
+  animation: spin3d 16s linear infinite;
 }
 
 .logo img {
   width: 70px;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.25));
 }
 
 @keyframes spin3d {
@@ -92,15 +111,15 @@ body::after {
   100% { transform: translateX(-50%) rotateY(360deg); }
 }
 
-/* RIGHT 60% */
+/* RIGHT */
 .right {
   width: 60%;
-  padding: 180px 100px 80px 120px; /* 🔥 下移 + 左padding */
+  padding: 220px 100px 60px 140px; /* 🔥 往下移远离logo */
 }
 
 /* request */
 .request {
-  margin-bottom: 60px;
+  margin-bottom: 35px; /* 🔥 缩小间距 */
   animation: fadeIn 0.5s ease;
 }
 
@@ -110,19 +129,19 @@ body::after {
 }
 
 .song {
-  margin-top: 14px;
-  font-size: 28px;
-  padding-left: 40px;
+  margin-top: 10px;
+  font-size: 26px;
+  padding-left: 30px;
 }
 
 .tip {
-  margin-top: 10px;
+  margin-top: 6px;
   color: #ff8a2b;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 @keyframes fadeIn {
-  from {opacity:0; transform: translateY(15px);}
+  from {opacity:0; transform: translateY(10px);}
   to {opacity:1; transform: translateY(0);}
 }
 </style>
@@ -130,19 +149,22 @@ body::after {
 
 <body>
 
+<div class="bg1"></div>
+<div class="bg2"></div>
+<div class="bg3"></div>
+<div class="noise"></div>
+
 <div class="logo">
   <img src="logo.png">
 </div>
 
 <div class="container">
 
-  <!-- LEFT -->
   <div class="left">
     <img src="qr.png">
     <p>REQUEST A SONG</p>
   </div>
 
-  <!-- RIGHT -->
   <div class="right" id="list"></div>
 
 </div>
