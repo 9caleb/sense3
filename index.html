@@ -8,9 +8,10 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   color: white;
+  overflow: hidden;
 }
 
-/* 背景 */
+/* 背景 video */
 .bgVideo {
   position: fixed;
   inset: 0;
@@ -20,83 +21,84 @@ body {
   z-index: -2;
 }
 
+/* overlay */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.6);
   z-index: -1;
 }
 
-/* 主布局（🔥 关键） */
+/* 🔥 保留居中 layout + 放大 */
 .container {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* 🔥 上中下 */
-  padding: 40px 20px;
-}
+  justify-content: center;
+  align-items: center;
 
-/* 上 */
-.top {
+  transform: scale(1.2); /* 🔥 核心放大 */
+  transform-origin: center;
   text-align: center;
 }
 
+/* logo */
 .logo {
-  width: 120px;
+  width: 110px;
   margin-bottom: 15px;
 }
 
+/* title */
 .title {
-  font-size: 30px;
+  font-size: 26px;
   letter-spacing: 4px;
+  margin-bottom: 30px;
 }
 
-/* 中 */
-.middle {
-  width: 100%;
-}
-
+/* form */
 .form {
-  width: 100%;
+  width: 90%;
+  max-width: 520px;
 }
 
+/* input */
 input {
   width: 100%;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 18px;
+  border-radius: 12px;
   border: 1px solid rgba(255,255,255,0.2);
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.06);
   color: white;
-  font-size: 18px;
+  font-size: 17px;
 }
 
-/* 按钮 */
+/* submit */
 .submitBtn {
-  width: 100%;
-  padding: 20px;
-  font-size: 18px;
-  border-radius: 14px;
-  background: linear-gradient(to right, #ff3c3c, #8b0000);
-  border: none;
-}
-
-.tipBtn {
-  margin-top: 20px;
   width: 100%;
   padding: 18px;
   font-size: 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 12px;
+  background: linear-gradient(to right, #ff3c3c, #8b0000);
+  border: none;
+  color: white;
+}
+
+/* tip */
+.tipBtn {
+  margin-top: 15px;
+  width: 100%;
+  padding: 16px;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.3);
   background: transparent;
+  color: white;
 }
 
-/* 下 */
-.bottom {
-  text-align: center;
-}
-
+/* notes */
 .notes {
+  margin-top: 30px;
   font-size: 14px;
   line-height: 1.8;
   opacity: 0.8;
@@ -114,14 +116,16 @@ input {
 
 .modalContent {
   width: 90%;
+  max-width: 420px;
   text-align: center;
 }
 
 .modal img {
-  width: 90%;
+  width: 85%;
   margin: 20px 0;
 }
 
+/* modal buttons */
 .modalButtons {
   display: flex;
   gap: 10px;
@@ -130,8 +134,8 @@ input {
 
 .modalButtons button {
   flex: 1;
-  padding: 16px;
-  border-radius: 12px;
+  padding: 14px;
+  border-radius: 10px;
   border: none;
 }
 </style>
@@ -140,49 +144,43 @@ input {
 
 <body>
 
+<!-- 🔥 你的 left video -->
 <video class="bgVideo" autoplay muted loop playsinline>
-  <source src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4">
+  <source src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4" type="video/mp4">
 </video>
 
 <div class="overlay"></div>
 
 <div class="container">
 
-  <!-- 上 -->
-  <div class="top">
-    <img src="logo.png" class="logo">
-    <div class="title">REQUEST A TRACK</div>
+  <img src="logo.png" class="logo">
+
+  <div class="title">REQUEST A TRACK</div>
+
+  <div class="form">
+
+    <input type="text" placeholder="Your Name" id="name">
+    <input type="text" placeholder="Song Artist" id="artist">
+    <input type="text" placeholder="Song Name" id="song">
+
+    <button class="submitBtn" onclick="submit()">SUBMIT REQUEST</button>
+
+    <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
+
   </div>
 
-  <!-- 中 -->
-  <div class="middle">
-    <div class="form">
-
-      <input type="text" placeholder="Your Name" id="name">
-      <input type="text" placeholder="Song Artist" id="artist">
-      <input type="text" placeholder="Song Name" id="song">
-
-      <button class="submitBtn" onclick="submit()">SUBMIT REQUEST</button>
-
-      <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
-
-    </div>
-  </div>
-
-  <!-- 下 -->
-  <div class="bottom">
-    <div class="notes">
-      • Please request well-known songs or worldwide club tracks.<br>
-      • Must align with our music policy.<br>
-      • We reserve the right to decline any request.<br>
-      • Not all requests will be played.
-    </div>
+  <div class="notes">
+    • Please request well-known songs or worldwide club tracks.<br>
+    • Must align with our music policy.<br>
+    • We reserve the right to decline any request.<br>
+    • Not all requests will be played.
   </div>
 
 </div>
 
 <!-- TIP -->
 <div class="modal" id="tipModal">
+
   <div class="modalContent">
 
     <h2>TIP THE DJ</h2>
@@ -203,12 +201,14 @@ input {
     </div>
 
   </div>
+
 </div>
 
 <script>
 function openTip() {
   document.getElementById("tipModal").style.display = "flex";
 }
+
 function closeTip() {
   document.getElementById("tipModal").style.display = "none";
 }
