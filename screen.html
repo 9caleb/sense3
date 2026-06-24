@@ -6,88 +6,124 @@
 <style>
 body {
   margin: 0;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   color: white;
   overflow: hidden;
-  background: radial-gradient(circle at center, #4a0000, #000);
 }
 
-.bg {
+/* 🔥 动态红色背景（烟雾 + 流动） */
+body::before {
+  content: "";
   position: fixed;
-  width: 100%;
-  height: 100%;
-  background: url('https://grainy-gradients.vercel.app/noise.svg');
-  opacity: 0.15;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(180,0,0,0.4), transparent),
+    radial-gradient(circle at 70% 60%, rgba(120,0,0,0.5), transparent),
+    radial-gradient(circle at 50% 80%, rgba(200,0,0,0.3), transparent),
+    #000;
+  animation: moveBg 25s ease infinite;
+  z-index: -2;
+  filter: blur(80px);
 }
 
+@keyframes moveBg {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-10%, -10%); }
+  100% { transform: translate(0,0); }
+}
+
+/* grain texture */
+body::after {
+  content:"";
+  position: fixed;
+  width:100%;
+  height:100%;
+  background: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:0.15;
+  z-index:-1;
+}
+
+/* layout */
 .container {
   display: flex;
   height: 100vh;
 }
 
+/* 左边 QR（40%） */
 .left {
-  width: 25%;
-  text-align: center;
-  padding-top: 80px;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .left img {
-  width: 200px;
+  width: 260px;
 }
 
 .left p {
-  margin-top: 10px;
-  font-size: 14px;
+  margin-top: 15px;
+  font-size: 16px;
+  letter-spacing: 2px;
   opacity: 0.7;
 }
 
-.centerLogo {
+/* 中间 logo */
+.logo {
   position: absolute;
   top: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  transform-style: preserve-3d;
+  transform: translateX(-50%) rotateY(0deg);
+  animation: rotate3d 12s linear infinite;
 }
 
-.centerLogo img {
-  width: 70px;
-  animation: spin 30s linear infinite;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+.logo img {
+  width: 80px;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.3));
 }
 
-@keyframes spin {
-  from {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
+@keyframes rotate3d {
+  0% { transform: translateX(-50%) rotateY(0deg); }
+  100% { transform: translateX(-50%) rotateY(360deg); }
 }
 
+/* 右边 feed（60%） */
 .right {
-  width: 75%;
-  padding: 100px 40px;
+  width: 60%;
+  padding: 120px 80px;
   overflow: hidden;
 }
 
+/* request */
 .request {
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   animation: fadeIn 0.6s ease;
 }
 
 .name {
-  color: #ff4d4d;
+  font-size: 20px;
   font-weight: bold;
 }
 
 .song {
-  margin-top: 10px;
-  font-size: 22px;
+  margin-top: 12px;
+  font-size: 26px;
+  padding-left: 20px;
 }
 
 .tip {
-  margin-top: 8px;
-  color: #ff9933;
-  font-size: 14px;
+  margin-top: 10px;
+  color: #ff7a00;
+  font-size: 16px;
 }
 
 @keyframes fadeIn {
-  from {opacity:0; transform: translateY(10px);}
+  from {opacity:0; transform: translateY(15px);}
   to {opacity:1; transform: translateY(0);}
 }
 </style>
@@ -95,44 +131,63 @@ body {
 
 <body>
 
-<div class="bg"></div>
-
-<div class="centerLogo">
+<div class="logo">
   <img src="logo.png">
 </div>
 
 <div class="container">
 
+  <!-- 左 -->
   <div class="left">
     <img src="qr.png">
     <p>REQUEST A SONG</p>
   </div>
 
+  <!-- 右 -->
   <div class="right" id="list"></div>
 
 </div>
 
 <script>
-const data = [
+const colors = ["#ff4d4d","#4da6ff","#b84dff","#ff944d","#4dff88"];
+
+const users = {};
+
+function getColor(name) {
+  if (!users[name]) {
+    users[name] = colors[Math.floor(Math.random()*colors.length)];
+  }
+  return users[name];
+}
+
+let data = [
   {name:"Dato AK", artist:"Daddy Yankee", song:"Gasolina", tip:200},
   {name:"Amanda", artist:"Nina Sky", song:"Move Your Body"},
   {name:"Boss Iwan", artist:"John Summit", song:"Where You Are"}
 ];
 
-const list = document.getElementById("list");
-
 function render() {
+  const list = document.getElementById("list");
   list.innerHTML = "";
 
+  // 🔥 tip priority
   data.sort((a,b)=>(b.tip||0)-(a.tip||0));
 
   data.forEach(d => {
     const div = document.createElement("div");
     div.className = "request";
 
+    const color = getColor(d.name);
+
     div.innerHTML = `
-      <div><span class="name">${d.name}</span> requested:</div>
-      <div class="song">${d.artist} - ${d.song}</div>
+      <div class="name" style="color:${color}">
+        ${d.name} requested:
+      </div>
+
+      <div class="song">
+        ${d.artist} - ${d.song}
+      </div>
+
       ${d.tip ? `<div class="tip">🔥 RM${d.tip} TIP</div>` : ""}
     `;
 
