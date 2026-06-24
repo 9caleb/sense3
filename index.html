@@ -1,1 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sense3 Request</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: Arial;
+      text-align: center;
+      padding: 40px;
+    }
+    input, button {
+      width: 90%;
+      padding: 12px;
+      margin: 10px;
+      border: none;
+    }
+    button {
+      background: white;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
 
+<h2>Request a Song</h2>
+
+<input id="name" placeholder="Your Name">
+<input id="artist" placeholder="Artist">
+<input id="song" placeholder="Song Title">
+
+<button onclick="submit()">Submit</button>
+
+<p style="font-size:12px;opacity:0.6;">
+Requests are subject to approval
+</p>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBMoeGpRpLb8Ooh47WIlKCrCPC7ocZ2ZUo",
+  authDomain: "play-chatbox.firebaseapp.com",
+  projectId: "play-chatbox"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.submit = async function() {
+  await addDoc(collection(db, "sense3_requests"), {
+    name: document.getElementById("name").value,
+    artist: document.getElementById("artist").value,
+    song: document.getElementById("song").value,
+    status: "pending",
+    createdAt: Date.now()
+  });
+
+  alert("Submitted");
+}
+</script>
+
+</body>
+</html>
