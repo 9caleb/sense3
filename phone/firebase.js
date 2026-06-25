@@ -1,1 +1,79 @@
+// =========================
+// Firebase
+// =========================
 
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+
+    getFirestore,
+
+    collection,
+
+    addDoc,
+
+    serverTimestamp
+
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// =========================
+// Config
+// =========================
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyBMoeGpRpLb8Ooh47WIlKCrCPC7ocZ2ZUo",
+
+    authDomain: "play-chatbox.firebaseapp.com",
+
+    databaseURL: "https://play-chatbox-default-rtdb.asia-southeast1.firebasedatabase.app",
+
+    projectId: "play-chatbox",
+
+    storageBucket: "play-chatbox.firebasestorage.app",
+
+    messagingSenderId: "822745508232",
+
+    appId: "1:822745508232:web:20b6baa7e4929668db723d",
+
+    measurementId: "G-4X6CD680J3"
+
+};
+
+// =========================
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+// =========================
+
+export async function submitRequest(data){
+
+    await addDoc(
+
+        collection(db,"sense3_requests"),
+
+        {
+
+            name:data.name,
+
+            artist:data.artist,
+
+            song:data.song,
+
+            status:"pending",
+
+            tipAmount:data.tipAmount || 0,
+
+            paymentType:data.paymentType || "",
+
+            receipt:data.receipt || "",
+
+            createdAt:serverTimestamp()
+
+        }
+
+    );
+
+}
