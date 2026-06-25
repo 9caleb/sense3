@@ -204,32 +204,5 @@ input {
 
 </div>
 
-<script>
-function openTip() {
-  document.getElementById("tipModal").style.display = "flex";
-}
-
-function closeTip() {
-  document.getElementById("tipModal").style.display = "none";
-}
-
-function submit(){
-  const name = document.getElementById("name");
-  const artist = document.getElementById("artist");
-  const song = document.getElementById("song");
-
-  if(!name.value || !artist.value || !song.value){
-    alert("Fill all fields");
-    return;
-  }
-
-  name.disabled = true;
-  artist.value = "";
-  song.value = "";
-
-  alert("Submitted");
-}
-</script>
-
 </body>
 </html>
