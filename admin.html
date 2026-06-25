@@ -58,16 +58,29 @@
 
         <div class="headerRight">
 
-            <div class="stat" id="pendingCount">
-
-                Pending 0
-
+            <div class="stat">
+                Total
+                <span id="totalRequests">0</span>
             </div>
 
-            <div class="stat" id="tipTotal">
+            <div class="stat">
+                Pending
+                <span id="pendingRequests">0</span>
+            </div>
 
-                Tips RM0
+            <div class="stat">
+                Approved
+                <span id="approvedRequests">0</span>
+            </div>
 
+            <div class="stat">
+                Rejected
+                <span id="rejectedRequests">0</span>
+            </div>
+
+            <div class="stat">
+                Tips
+                <span id="tipRequests">0</span>
             </div>
 
         </div>
@@ -78,35 +91,33 @@
 
     <div class="tabs">
 
-        <div class="tab active" data-filter="all">
+        <div class="tab active" data-tab="all">
             All
         </div>
 
-        <div class="tab" data-filter="pending">
+        <div class="tab" data-tab="pending">
             Pending
         </div>
 
-        <div class="tab" data-filter="approved">
+        <div class="tab" data-tab="approved">
             Approved
         </div>
 
-        <div class="tab" data-filter="rejected">
+        <div class="tab" data-tab="rejected">
             Rejected
         </div>
 
-        <div class="tab" data-filter="tips">
+        <div class="tab" data-tab="tips">
             Tips
         </div>
 
     </div>
-
     <!-- Request List -->
 
     <div
-        id="requestList"
+        id="list"
         class="list"
     >
-
     </div>
 
 </div>
@@ -131,9 +142,45 @@
                 class="delete"
                 id="closeReceipt"
             >
-
                 Close
+            </button>
 
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Confirm Modal -->
+
+<div
+    id="confirmModal"
+    class="modal"
+>
+
+    <div class="modalContent">
+
+        <h2 id="confirmTitle">
+            Confirm
+        </h2>
+
+        <p id="confirmMessage">
+        </p>
+
+        <div class="actions">
+
+            <button
+                id="cancelButton"
+                class="delete"
+            >
+                Cancel
+            </button>
+
+            <button
+                id="confirmButton"
+                class="approve"
+            >
+                Confirm
             </button>
 
         </div>
@@ -143,6 +190,10 @@
 </div>
 
 <script type="module" src="admin/firebase.js"></script>
+
+<script type="module" src="admin/confirmModal.js"></script>
+
+<script type="module" src="admin/login.js"></script>
 
 <script type="module" src="admin/app.js"></script>
 
