@@ -64,12 +64,7 @@ export const requestCollection = collection(
 
 export function listenRequests(callback){
 
-    const q = query(
-        requestCollection,
-        orderBy("createdAt","desc")
-    );
-
-    onSnapshot(q,(snapshot)=>{
+    onSnapshot(requestCollection,(snapshot)=>{
 
         const requests=[];
 
