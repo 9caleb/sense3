@@ -191,48 +191,9 @@ function switchVideo(current, next) {
   current.style.opacity = 0;
 }
 
-/* feed */
-const data = [
-  {name:"Dato AK", artist:"Daddy Yankee", song:"Gasolina", tip:200},
-  {name:"Amanda", artist:"Nina Sky", song:"Move Your Body"},
-  {name:"Boss Iwan", artist:"John Summit", song:"Where You Are"}
-];
-
-const colors = ["#ff4d6d","#4da6ff","#b84dff","#ff944d","#4dff88","#ffd24d"];
-const map = {};
-let i = 0;
-
-function getColor(name){
-  if(!map[name]){
-    map[name] = colors[i % colors.length];
-    i++;
-  }
-  return map[name];
-}
-
-const feed = document.getElementById("feed");
-
-data.sort((a,b)=>(b.tip||0)-(a.tip||0));
-
-data.forEach(d=>{
-  const div = document.createElement("div");
-  div.className = "request";
-
-  div.innerHTML = `
-    <div class="name">
-      <span style="color:${getColor(d.name)}">${d.name}:</span>
-    </div>
-
-    <div class="song">
-      ${d.artist} - ${d.song}
-    </div>
-
-    ${d.tip ? `<div class="tip">🔥 RM${d.tip} TIP</div>` : ""}
-  `;
-
-  feed.appendChild(div);
-});
 </script>
 
+<script type="module" src="screen/feed.js"></script>  
+  
 </body>
 </html>
