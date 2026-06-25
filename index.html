@@ -192,8 +192,32 @@ input {
 
     <img src="qr.png">
 
-    <input type="file">
-    <input type="number" placeholder="Enter amount (RM)">
+<input
+    type="number"
+    id="tipAmount"
+    placeholder="Enter amount (RM)"
+>
+
+<select id="paymentType">
+
+    <option value="">
+        Select Payment
+    </option>
+
+    <option value="qr">
+        QR
+    </option>
+
+    <option value="cash">
+        Cash
+    </option>
+
+</select>
+
+<input
+    type="file"
+    id="receipt"
+/>
 
     <div class="modalButtons">
       <button onclick="closeTip()">BACK</button>
