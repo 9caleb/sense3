@@ -1,41 +1,151 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 
-<style>
-body {
-  background: black;
-  color: white;
-  font-family: Arial;
-}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-.request {
-  border-bottom: 1px solid #333;
-  padding: 15px;
-}
+<title>Sense Request Admin</title>
 
-button {
-  margin-right: 10px;
-  padding: 8px 12px;
-}
+<link rel="stylesheet" href="admin/style.css">
 
-.approve { background: green; }
-.reject { background: red; }
-</style>
 </head>
 
 <body>
 
-<h2>Admin Panel</h2>
+<!-- Login -->
 
-<div class="request">
-  brian requested "asap rocky - lsd"
-  <br>Status: pending
-  <br>
-  <button class="approve">Approve</button>
-  <button class="reject">Reject</button>
+<div id="loginPage" class="login">
+
+    <div class="loginBox">
+
+        <h2>Sense Admin</h2>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter Password"
+        >
+
+        <button id="loginBtn">
+            LOGIN
+        </button>
+
+    </div>
+
 </div>
 
+<!-- Dashboard -->
+
+<div id="dashboard" style="display:none;">
+
+    <header class="header">
+
+        <div class="headerLeft">
+
+            <img
+                src="logo.png"
+                class="logo"
+            >
+
+            <div class="title">
+                SENSE REQUEST ADMIN
+            </div>
+
+        </div>
+
+        <div class="headerRight">
+
+            <div class="stat" id="pendingCount">
+
+                Pending 0
+
+            </div>
+
+            <div class="stat" id="tipTotal">
+
+                Tips RM0
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- Tabs -->
+
+    <div class="tabs">
+
+        <div class="tab active" data-filter="all">
+            All
+        </div>
+
+        <div class="tab" data-filter="pending">
+            Pending
+        </div>
+
+        <div class="tab" data-filter="approved">
+            Approved
+        </div>
+
+        <div class="tab" data-filter="rejected">
+            Rejected
+        </div>
+
+        <div class="tab" data-filter="tips">
+            Tips
+        </div>
+
+    </div>
+
+    <!-- Request List -->
+
+    <div
+        id="requestList"
+        class="list"
+    >
+
+    </div>
+
+</div>
+
+<!-- Receipt Popup -->
+
+<div
+    id="receiptModal"
+    class="modal"
+>
+
+    <div class="modalContent">
+
+        <img
+            id="receiptImage"
+            src=""
+        >
+
+        <div class="actions">
+
+            <button
+                class="delete"
+                id="closeReceipt"
+            >
+
+                Close
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script type="module" src="admin/firebase.js"></script>
+
+<script type="module" src="admin/app.js"></script>
+
 </body>
+
 </html>
