@@ -12,17 +12,14 @@ const feed = document.getElementById("feed");
 
 const colors = [
 
-    "#ff4d6d",
-
-    "#4da6ff",
-
-    "#b84dff",
-
-    "#ff944d",
-
-    "#4dff88",
-
-    "#ffd24d"
+    "#4FC3F7",
+    "#F06292",
+    "#81C784",
+    "#FFD54F",
+    "#BA68C8",
+    "#FF8A65",
+    "#4DD0E1",
+    "#AED581"
 
 ];
 
@@ -34,7 +31,7 @@ function getColor(name){
 
     if(!colorMap[name]){
 
-        colorMap[name]=colors[colorIndex%colors.length];
+        colorMap[name]=colors[colorIndex % colors.length];
 
         colorIndex++;
 
@@ -52,61 +49,37 @@ listenApproved((requests)=>{
 
     feed.innerHTML="";
 
-    requests.sort(
-
-        (a,b)=>
-
-        (Number(b.tipAmount)||0)-
-
-        (Number(a.tipAmount)||0)
-
-    );
-
     requests.forEach(request=>{
 
-        const div=document.createElement("div");
+        const card=document.createElement("div");
 
-        div.className="request";
+        card.className="request";
 
-        div.innerHTML=`
+        card.innerHTML=`
 
-            <div class="name">
+            <div
+                class="name"
+                style="color:${getColor(request.name)}">
 
-                <span style="color:${getColor(request.name)}">
+                ${(request.name || "").toUpperCase()}
 
-                    ${request.name}
+            </div>
 
-                </span>
+            <div class="artist">
+
+                ${(request.artist || "").toUpperCase()}
 
             </div>
 
             <div class="song">
 
-                ${request.artist} - ${request.song}
+                ${request.song || ""}
 
             </div>
 
-            ${
-
-                Number(request.tipAmount)>0
-
-                ?
-
-                `<div class="tip">
-
-                    🔥 RM${request.tipAmount} TIP
-
-                </div>`
-
-                :
-
-                ""
-
-            }
-
         `;
 
-        feed.appendChild(div);
+        feed.appendChild(card);
 
     });
 
