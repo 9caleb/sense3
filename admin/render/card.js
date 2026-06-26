@@ -1,126 +1,80 @@
 // =========================
-// card.js
+// admin/render/card.js
 // =========================
 
-import {
-    renderTip,
-    renderPayment,
-    renderReceipt,
-    renderStatus,
-    getNameColor,
-    formatTime
-} from "./cardUI.js";
+import { formatTime } from "./cardUI.js";
 
 export function createCard(request){
 
-    const card=document.createElement("div");
+    const row = document.createElement("div");
 
-    // =========================
-    // Card Class
-    // =========================
+    row.className = "requestRow";
 
-    let className="card";
+    row.dataset.id = request.id;
 
-    if(request.status){
+    row.innerHTML = `
 
-        className+=" "+request.status;
+        <div class="col time">
 
-    }else{
-
-        className+=" pending";
-
-    }
-
-    if((request.tipAmount||0)>0){
-
-        className+=" tip";
-
-    }
-
-    card.className=className;
-
-    card.dataset.id=request.id;
-
-    // =========================
-    // Name Color
-    // =========================
-
-    const nameColor=getNameColor(request.name);
-
-    // =========================
-    // HTML
-    // =========================
-
-    card.innerHTML=`
-
-        <div class="cardTop">
-
-            <div class="topLeft">
-
-                ${renderTip(request)}
-
-            </div>
-
-            <div class="topRight">
-
-                ${formatTime(request.createdAt)}
-
-            </div>
+            ${formatTime(request.createdAt)}
 
         </div>
 
         <div
-            class="name"
-            style="color:${nameColor};">
+            class="col name"
+            style="color:${getNameColor(request.name)}">
 
-            ${request.name||"-"}
-
-        </div>
-
-        <div class="artist">
-
-            ${request.artist||"-"}
+            ${request.name || "-"}
 
         </div>
 
-        <div class="song">
+        <div class="col request">
 
-            ${request.song||"-"}
+            <div class="artist">
+
+                ${request.artist || "-"}
+
+            </div>
+
+            <div class="song">
+
+                ${request.song || "-"}
+
+            </div>
 
         </div>
 
-        ${renderPayment(request)}
+        <div class="col status">
 
-        ${renderReceipt(request)}
+            <span class="statusBadge ${request.status}">
 
-        ${renderStatus(request)}
+                ${(request.status || "pending").toUpperCase()}
 
-        <div class="actions">
+            </span>
 
-            <button
-                class="approve"
-                data-action="approve"
-                data-id="${request.id}">
+        </div>
 
-                APPROVE
+        <div class="col action">
 
-            </button>
+            ${
+                request.status==="pending"
+                ?`
+                <button class="approve" data-id="${request.id}">
+                    ✓
+                </button>
 
-            <button
-                class="reject"
-                data-action="reject"
-                data-id="${request.id}">
-
-                REJECT
-
-            </button>
+                <button class="reject" data-id="${request.id}">
+                    ✕
+                </button>
+                `
+                :""
+            }
 
             <button
                 class="delete"
-                data-action="delete"
                 data-id="${request.id}">
 
-                DELETE
+                🗑
 
             </button>
 
@@ -128,6 +82,52 @@ export function createCard(request){
 
     `;
 
-    return card;
+    return row;
+
+}
+
+// =========================
+// Name Color
+// =========================
+
+function getNameColor(name){
+
+    const colors=[
+
+        "#4FC3F7",
+
+        "#F06292",
+
+        "#81C784",
+
+        "#FFD54F",
+
+        "#BA68C8",
+
+        "#FF8A65",
+
+        "#4DD0E1",
+
+        "#AED581"
+
+    ];
+
+    if(!name){
+
+        return "#ffffff";
+
+    }
+
+    let hash=0;
+
+    for(let i=0;i<name.length;i++){
+
+        hash=name.charCodeAt(i)+((hash<<5)-hash);
+
+    }
+
+    hash=Math.abs(hash);
+
+    return colors[hash%colors.length];
 
 }
