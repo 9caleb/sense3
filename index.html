@@ -84,18 +84,6 @@ input {
   color: white;
 }
 
-/* tip */
-.tipBtn {
-  margin-top: 15px;
-  width: 100%;
-  padding: 16px;
-  font-size: 14px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.3);
-  background: transparent;
-  color: white;
-}
-
 /* notes */
 .notes {
   margin-top: 30px;
@@ -104,40 +92,6 @@ input {
   opacity: 0.8;
 }
 
-/* modal */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.95);
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.modalContent {
-  width: 90%;
-  max-width: 420px;
-  text-align: center;
-}
-
-.modal img {
-  width: 85%;
-  margin: 20px 0;
-}
-
-/* modal buttons */
-.modalButtons {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.modalButtons button {
-  flex: 1;
-  padding: 14px;
-  border-radius: 10px;
-  border: none;
-}
 </style>
 
 </head>
@@ -165,8 +119,6 @@ input {
 
     <button class="submitBtn" onclick="submit()">SUBMIT REQUEST</button>
 
-    <button class="tipBtn" onclick="openTip()">TIP THE DJ</button>
-
   </div>
 
   <div class="notes">
@@ -174,56 +126,6 @@ input {
     • Must align with our music policy.<br>
     • We reserve the right to decline any request.<br>
     • Not all requests will be played.
-  </div>
-
-</div>
-
-<!-- TIP -->
-<div class="modal" id="tipModal">
-
-  <div class="modalContent">
-
-    <h2>TIP THE DJ</h2>
-
-    <p>1. Screenshot QR</p>
-    <p>2. Make payment</p>
-    <p>3. Screenshot receipt</p>
-    <p>4. Upload + enter amount</p>
-
-    <img src="qr.png">
-
-<input
-    type="number"
-    id="tipAmount"
-    placeholder="Enter amount (RM)"
->
-
-<select id="paymentType">
-
-    <option value="">
-        Select Payment
-    </option>
-
-    <option value="qr">
-        QR
-    </option>
-
-    <option value="cash">
-        Cash
-    </option>
-
-</select>
-
-<input
-    type="file"
-    id="receipt"
-/>
-
-    <div class="modalButtons">
-      <button onclick="closeTip()">BACK</button>
-      <button onclick="saveTip()">DONE</button>
-    </div>
-
   </div>
 
 </div>
