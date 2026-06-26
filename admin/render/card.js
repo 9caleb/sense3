@@ -3,8 +3,12 @@
 // =========================
 
 import {
+
     formatTime,
-    getNameColor
+    getNameColor,
+    renderPayment,
+    renderReceipt
+
 } from "./cardUI.js";
 
 export function createCard(request){
@@ -15,72 +19,138 @@ export function createCard(request){
 
     row.dataset.id=request.id;
 
+    const status=request.status || "pending";
+
+    const tip=request.tipAmount || 0;
+
     row.innerHTML=`
 
-        <div class="col time">
+        <!-- TIME -->
 
-            ${formatTime(request.createdAt)}
+        <div class="col">
 
-        </div>
+            <div class="time">
 
-        <div
-            class="col name"
-            style="color:${getNameColor(request.name)}">
+                ${formatTime(request.createdAt)}
 
-            ${(request.name||"-").toUpperCase()}
+            </div>
 
         </div>
 
-        <div class="col request">
+        <!-- NAME -->
+
+        <div class="col">
+
+            <div
+                class="name"
+                style="color:${getNameColor(request.name)}">
+
+                ${(request.name||"-").toUpperCase()}
+
+            </div>
+
+        </div>
+
+        <!-- REQUEST -->
+
+        <div class="col">
 
             <div class="artist">
 
-                ${request.artist||"-"}
+                ${request.artist || "-"}
 
             </div>
 
             <div class="song">
 
-                ${request.song||"-"}
+                ${request.song || "-"}
 
             </div>
 
+            ${
+
+                tip>0
+
+                ?
+
+                `
+
+                <div class="tip">
+
+                    🔥 RM${tip}
+
+                </div>
+
+                `
+
+                : ""
+
+            }
+
+            ${renderPayment(request)}
+
+            ${renderReceipt(request)}
+
         </div>
 
-        <div class="col status">
+        <!-- STATUS -->
 
-            <span class="statusBadge ${request.status||"pending"}">
+        <div class="col">
 
-                ${(request.status||"pending").toUpperCase()}
+            <span class="statusBadge ${status}">
+
+                ${status.toUpperCase()}
 
             </span>
 
         </div>
 
-        <div class="col action">
+        <!-- ACTION -->
+
+        <div class="action">
 
             ${
-                request.status==="pending"
-                ?`
-                    <button
-                        class="approve"
-                        data-id="${request.id}">
-                        ✓
-                    </button>
 
-                    <button
-                        class="reject"
-                        data-id="${request.id}">
-                        ✕
-                    </button>
+                status==="pending"
+
+                ?
+
                 `
-                :""
+
+                <button
+
+                    class="approve"
+
+                    data-id="${request.id}">
+
+                    ✓
+
+                </button>
+
+                <button
+
+                    class="reject"
+
+                    data-id="${request.id}">
+
+                    ✕
+
+                </button>
+
+                `
+
+                : ""
+
             }
 
             <button
+
                 class="delete"
+
                 data-id="${request.id}">
+
                 🗑
+
             </button>
 
         </div>
