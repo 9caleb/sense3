@@ -5,9 +5,7 @@
 import {
 
     formatTime,
-    getNameColor,
-    renderPayment,
-    renderReceipt
+    getNameColor
 
 } from "./cardUI.js";
 
@@ -20,8 +18,6 @@ export function createCard(request){
     row.dataset.id=request.id;
 
     const status=request.status || "pending";
-
-    const tip=request.tipAmount || 0;
 
     row.innerHTML=`
 
@@ -45,7 +41,7 @@ export function createCard(request){
                 class="name"
                 style="color:${getNameColor(request.name)}">
 
-                ${(request.name||"-").toUpperCase()}
+                ${(request.name || "-").toUpperCase()}
 
             </div>
 
@@ -67,30 +63,6 @@ export function createCard(request){
 
             </div>
 
-            ${
-
-                tip>0
-
-                ?
-
-                `
-
-                <div class="tip">
-
-                    🔥 RM${tip}
-
-                </div>
-
-                `
-
-                : ""
-
-            }
-
-            ${renderPayment(request)}
-
-            ${renderReceipt(request)}
-
         </div>
 
         <!-- STATUS -->
@@ -110,17 +82,11 @@ export function createCard(request){
         <div class="action">
 
             ${
-
                 status==="pending"
-
-                ?
-
-                `
+                ?`
 
                 <button
-
                     class="approve"
-
                     data-id="${request.id}">
 
                     ✓
@@ -128,9 +94,7 @@ export function createCard(request){
                 </button>
 
                 <button
-
                     class="reject"
-
                     data-id="${request.id}">
 
                     ✕
@@ -138,15 +102,11 @@ export function createCard(request){
                 </button>
 
                 `
-
-                : ""
-
+                :""
             }
 
             <button
-
                 class="delete"
-
                 data-id="${request.id}">
 
                 🗑
