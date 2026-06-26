@@ -177,53 +177,129 @@ body{
 
 }
 
-/* ---------------- CARD ---------------- */
+/* ---------------- ROW ---------------- */
 
-.card{
+.requestRow{
 
-    background:var(--card);
+    display:grid;
+
+    grid-template-columns:
+
+        90px
+
+        170px
+
+        1fr
+
+        130px
+
+        180px;
+
+    gap:18px;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+    background:#242424;
+
+    border:1px solid #343434;
+
+    border-radius:16px;
+
+}
+
+.requestRow:hover{
+
+    background:#2a2a2a;
+
+}
+
+.col{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.artist{
+
+    font-size:13px;
+
+    color:#8f8f8f;
+
+    margin-bottom:4px;
+
+}
+
+.song{
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:#fff;
+
+}
+
+.statusBadge{
+
+    display:inline-block;
+
+    padding:7px 14px;
 
     border-radius:20px;
 
-    border:1px solid var(--border);
+    font-size:12px;
 
-    padding:24px;
-
-    transition:.25s;
+    font-weight:700;
 
 }
 
-.card:hover{
+.statusBadge.pending{
 
-    transform:translateY(-2px);
+    background:#5f4b00;
 
-}
-
-.card.tip{
-
-    border:1px solid rgba(212,175,55,.55);
-
-    box-shadow:
-
-    0 0 18px rgba(212,175,55,.15);
+    color:#ffd34f;
 
 }
 
-.card.pending{
+.statusBadge.approved{
 
-    border-left:5px solid var(--yellow);
+    background:#11452d;
 
-}
-
-.card.approved{
-
-    border-left:5px solid var(--green);
+    color:#6dffb2;
 
 }
 
-.card.rejected{
+.statusBadge.rejected{
 
-    border-left:5px solid var(--red);
+    background:#541717;
+
+    color:#ff9c9c;
+
+}
+
+.action{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+.action button{
+
+    width:42px;
+
+    height:42px;
+
+    padding:0;
+
+    border-radius:10px;
+
+    font-size:18px;
 
 }
 
@@ -326,68 +402,6 @@ body{
     background:rgba(211,59,59,.18);
 
     color:#ff8d8d;
-
-}
-
-/* ---------------- BUTTON ---------------- */
-
-.actions{
-
-    display:flex;
-
-    gap:12px;
-
-    margin-top:24px;
-
-    flex-wrap:wrap;
-
-}
-
-button{
-
-    cursor:pointer;
-
-    border:none;
-
-    border-radius:12px;
-
-    padding:13px 22px;
-
-    color:white;
-
-    font-size:15px;
-
-    transition:.2s;
-
-}
-
-.approve{
-
-    background:var(--green);
-
-}
-
-.reject{
-
-    background:var(--red);
-
-}
-
-.delete{
-
-    background:#4a4a4a;
-
-}
-
-.view{
-
-    background:linear-gradient(90deg,#6d0d0d,#b41717);
-
-}
-
-button:hover{
-
-    opacity:.88;
 
 }
 
