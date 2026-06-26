@@ -6,6 +6,8 @@ import { listenApproved } from "./firebase.js";
 
 const feed = document.getElementById("feed");
 
+const MAX_REQUESTS = 5;
+
 // =========================
 // Name Color
 // =========================
@@ -49,38 +51,40 @@ listenApproved((requests)=>{
 
     feed.innerHTML="";
 
-    requests.forEach(request=>{
+    requests
+        .slice(0, MAX_REQUESTS)
+        .forEach((request)=>{
 
-        const card=document.createElement("div");
+            const card=document.createElement("div");
 
-        card.className="request";
+            card.className="request";
 
-        card.innerHTML=`
+            card.innerHTML=`
 
-            <div
-                class="name"
-                style="color:${getColor(request.name)}">
+                <div
+                    class="name"
+                    style="color:${getColor(request.name)}">
 
-                ${(request.name || "").toUpperCase()}
+                    ${(request.name || "").toUpperCase()}
 
-            </div>
+                </div>
 
-            <div class="artist">
+                <div class="artist">
 
-                ${(request.artist || "").toUpperCase()}
+                    ${(request.artist || "").toUpperCase()}
 
-            </div>
+                </div>
 
-            <div class="song">
+                <div class="song">
 
-                ${request.song || ""}
+                    ${request.song || ""}
 
-            </div>
+                </div>
 
-        `;
+            `;
 
-        feed.appendChild(card);
+            feed.appendChild(card);
 
-    });
+        });
 
 });
