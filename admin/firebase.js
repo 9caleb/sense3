@@ -10,11 +10,8 @@ import {
     onSnapshot,
     updateDoc,
     deleteDoc,
-    doc,
-    query,
-    orderBy
+    doc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
 
 // =========================
 // Firebase Config
@@ -40,13 +37,11 @@ const firebaseConfig = {
 
 };
 
-
 // =========================
 
 const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
-
 
 // =========================
 // Collection
@@ -56,7 +51,6 @@ export const requestCollection = collection(
     db,
     "sense3_requests"
 );
-
 
 // =========================
 // Realtime Listener
@@ -86,7 +80,6 @@ export function listenRequests(callback){
 
 }
 
-
 // =========================
 // Approve
 // =========================
@@ -99,7 +92,9 @@ export async function approveRequest(id){
 
         {
 
-            status:"approved"
+            status:"approved",
+
+            screenVisible:true
 
         }
 
@@ -107,6 +102,25 @@ export async function approveRequest(id){
 
 }
 
+// =========================
+// Hide From Screen
+// =========================
+
+export async function hideFromScreen(id){
+
+    await updateDoc(
+
+        doc(db,"sense3_requests",id),
+
+        {
+
+            screenVisible:false
+
+        }
+
+    );
+
+}
 
 // =========================
 // Reject
@@ -120,14 +134,15 @@ export async function rejectRequest(id){
 
         {
 
-            status:"rejected"
+            status:"rejected",
+
+            screenVisible:false
 
         }
 
     );
 
 }
-
 
 // =========================
 // Delete
@@ -140,53 +155,5 @@ export async function removeRequest(id){
         doc(db,"sense3_requests",id)
 
     );
-
-}
-
-
-// =========================
-// Cloudinary
-// =========================
-
-export const CLOUD_NAME="dbdiasouj";
-
-export const UPLOAD_PRESET="ml_default";
-
-
-// =========================
-// Upload Receipt
-// =========================
-
-export async function uploadReceipt(file){
-
-    const formData=new FormData();
-
-    formData.append(
-        "file",
-        file
-    );
-
-    formData.append(
-        "upload_preset",
-        UPLOAD_PRESET
-    );
-
-    const response=await fetch(
-
-        `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-
-        {
-
-            method:"POST",
-
-            body:formData
-
-        }
-
-    );
-
-    const result=await response.json();
-
-    return result.secure_url;
 
 }
