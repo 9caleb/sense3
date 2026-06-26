@@ -12,7 +12,7 @@ const MAX_REQUESTS = 5;
 // Name Color
 // =========================
 
-const colors = [
+const colors=[
 
     "#4FC3F7",
     "#F06292",
@@ -25,21 +25,83 @@ const colors = [
 
 ];
 
-const colorMap = {};
+const colorMap={};
 
-let colorIndex = 0;
+let colorIndex=0;
 
 function getColor(name){
 
     if(!colorMap[name]){
 
-        colorMap[name]=colors[colorIndex % colors.length];
+        colorMap[name]=colors[colorIndex%colors.length];
 
         colorIndex++;
 
     }
 
     return colorMap[name];
+
+}
+
+// =========================
+// Smooth Marquee
+// =========================
+
+function startMarquee(song,songText){
+
+    const distance=songText.scrollWidth-song.clientWidth;
+
+    if(distance<=0) return;
+
+    let direction=1;
+
+    let position=0;
+
+    let pauseUntil=performance.now()+2000;
+
+    const speed=30;
+
+    let last=performance.now();
+
+    function animate(now){
+
+        const dt=(now-last)/1000;
+
+        last=now;
+
+        if(now>=pauseUntil){
+
+            position+=direction*speed*dt;
+
+            if(position>=distance){
+
+                position=distance;
+
+                direction=-1;
+
+                pauseUntil=now+2000;
+
+            }
+
+            if(position<=0){
+
+                position=0;
+
+                direction=1;
+
+                pauseUntil=now+2000;
+
+            }
+
+            songText.style.transform=`translateX(${-position}px)`;
+
+        }
+
+        requestAnimationFrame(animate);
+
+    }
+
+    requestAnimationFrame(animate);
 
 }
 
@@ -52,7 +114,7 @@ listenApproved((requests)=>{
     feed.innerHTML="";
 
     requests
-        .slice(0, MAX_REQUESTS)
+        .slice(0,MAX_REQUESTS)
         .forEach((request)=>{
 
             const card=document.createElement("div");
@@ -65,25 +127,39 @@ listenApproved((requests)=>{
                     class="name"
                     style="color:${getColor(request.name)}">
 
-                    ${(request.name || "").toUpperCase()}
+                    ${(request.name||"").toUpperCase()}
 
                 </div>
 
                 <div class="artist">
 
-                    ${(request.artist || "").toUpperCase()}
+                    ${(request.artist||"").toUpperCase()}
 
                 </div>
 
                 <div class="song">
 
-                    ${request.song || ""}
+                    <span class="songText">
+
+                        ${request.song||""}
+
+                    </span>
 
                 </div>
 
             `;
 
             feed.appendChild(card);
+
+            const song=card.querySelector(".song");
+
+            const songText=card.querySelector(".songText");
+
+            requestAnimationFrame(()=>{
+
+                startMarquee(song,songText);
+
+            });
 
         });
 
