@@ -64,12 +64,6 @@ export async function submitRequest(data){
 
             status:"pending",
 
-            tipAmount:data.tipAmount || 0,
-
-            paymentType:data.paymentType || "",
-
-            receipt:data.receipt || "",
-
             createdAt:serverTimestamp()
 
         }
