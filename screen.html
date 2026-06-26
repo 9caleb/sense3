@@ -34,11 +34,15 @@ body{
 
     position:relative;
 
-    width:100vw;
+    width:192px;
 
-    height:100vh;
+    height:576px;
+
+    margin:auto;
 
     overflow:hidden;
+
+    background:#000;
 
 }
 
@@ -55,6 +59,8 @@ body{
     height:100%;
 
     object-fit:cover;
+
+    object-position:center center;
 
     transition:opacity .8s ease;
 
@@ -112,15 +118,7 @@ body{
 
     flex-direction:column;
 
-    justify-content:flex-start;
-
-    gap:18px;
-
-    padding:
-
-        24px
-
-        18px;
+    padding:18px 16px;
 
     overflow:hidden;
 
@@ -130,25 +128,31 @@ body{
 
 .request{
 
-    padding-bottom:14px;
+    position:relative;
 
-    border-bottom:
+    padding:0 0 18px 0;
 
-        1px solid
-
-        rgba(255,255,255,.08);
+    margin-bottom:18px;
 
     opacity:0;
 
-    animation:
+    animation:fadeIn .5s ease forwards;
 
-        fadeIn
+}
 
-        .5s
+.request::after{
 
-        ease
+    content:"";
 
-        forwards;
+    display:block;
+
+    width:88%;
+
+    height:1px;
+
+    margin:18px auto 0;
+
+    background:rgba(255,255,255,.08);
 
 }
 
@@ -156,7 +160,7 @@ body{
 
 .name{
 
-    font-size:18px;
+    font-size:20px;
 
     font-weight:800;
 
@@ -172,15 +176,13 @@ body{
 
     margin-top:8px;
 
-    font-size:13px;
+    font-size:11px;
 
-    color:
+    color:rgba(255,255,255,.55);
 
-        rgba(255,255,255,.68);
+    font-weight:600;
 
-    font-weight:500;
-
-    line-height:1.2;
+    letter-spacing:.8px;
 
 }
 
@@ -188,15 +190,15 @@ body{
 
 .song{
 
-    margin-top:3px;
+    margin-top:4px;
 
-    font-size:22px;
+    font-size:24px;
 
     font-weight:700;
 
     color:#fff;
 
-    line-height:1.1;
+    line-height:1.15;
 
 }
 
