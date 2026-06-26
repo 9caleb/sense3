@@ -215,49 +215,9 @@ body{
 
     display:inline-block;
 
-}
-
-.song.marquee .songText{
-
-    animation:
-
-        marquee
-
-        10s
-
-        linear
-
-        infinite;
+    will-change:transform;
 
 }
-
-@keyframes marquee{
-
-    0%{
-
-        transform:translateX(0);
-
-    }
-
-    15%{
-
-        transform:translateX(0);
-
-    }
-
-    85%{
-
-        transform:translateX(calc(-100% + 160px));
-
-    }
-
-    100%{
-
-        transform:translateX(0);
-
-    }
-
-}    
 
 /* ========================= */
 
