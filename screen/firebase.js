@@ -56,7 +56,7 @@ const db = getFirestore(app);
 
 export function listenApproved(callback){
 
-    const q = query(
+    const q=query(
 
         collection(db,"sense3_requests"),
 
@@ -70,15 +70,21 @@ export function listenApproved(callback){
 
         const requests=[];
 
-        snapshot.forEach(doc=>{
+        snapshot.forEach((doc)=>{
 
-            requests.push({
+            const data={
 
                 id:doc.id,
 
                 ...doc.data()
 
-            });
+            };
+
+            if(data.screenVisible){
+
+                requests.push(data);
+
+            }
 
         });
 
