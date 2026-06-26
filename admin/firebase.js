@@ -103,6 +103,28 @@ export async function approveRequest(id){
 }
 
 // =========================
+// Reject
+// =========================
+
+export async function rejectRequest(id){
+
+    await updateDoc(
+
+        doc(db,"sense3_requests",id),
+
+        {
+
+            status:"rejected",
+
+            screenVisible:false
+
+        }
+
+    );
+
+}
+
+// =========================
 // Hide From Screen
 // =========================
 
@@ -123,10 +145,10 @@ export async function hideFromScreen(id){
 }
 
 // =========================
-// Reject
+// Show On Screen
 // =========================
 
-export async function rejectRequest(id){
+export async function showOnScreen(id){
 
     await updateDoc(
 
@@ -134,9 +156,7 @@ export async function rejectRequest(id){
 
         {
 
-            status:"rejected",
-
-            screenVisible:false
+            screenVisible:true
 
         }
 
