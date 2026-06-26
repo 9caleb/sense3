@@ -5,12 +5,10 @@
 import {
 
     approveRequest,
-
     rejectRequest,
-
     removeRequest,
-
-    hideFromScreen
+    hideFromScreen,
+    showOnScreen
 
 } from "./firebase.js";
 
@@ -22,7 +20,7 @@ import { showConfirm } from "./confirmModal.js";
 
 export function bindActions(){
 
-    document.addEventListener("click",async(e)=>{
+    document.addEventListener("click",(e)=>{
 
         const button=e.target;
 
@@ -54,31 +52,7 @@ export function bindActions(){
 
             });
 
-        }
-
-        // -----------------
-        // Hide From Screen
-        // -----------------
-
-        if(button.classList.contains("hide")){
-
-            showConfirm({
-
-                titleText:"Remove From Screen",
-
-                messageText:"Hide this request from the LED screen?",
-
-                confirmText:"Hide",
-
-                type:"delete",
-
-                onConfirm:async()=>{
-
-                    await hideFromScreen(id);
-
-                }
-
-            });
+            return;
 
         }
 
@@ -105,6 +79,64 @@ export function bindActions(){
                 }
 
             });
+
+            return;
+
+        }
+
+        // -----------------
+        // Hide
+        // -----------------
+
+        if(button.classList.contains("hide")){
+
+            showConfirm({
+
+                titleText:"Remove From Screen",
+
+                messageText:"Hide this request from the LED screen?",
+
+                confirmText:"Hide",
+
+                type:"delete",
+
+                onConfirm:async()=>{
+
+                    await hideFromScreen(id);
+
+                }
+
+            });
+
+            return;
+
+        }
+
+        // -----------------
+        // Show
+        // -----------------
+
+        if(button.classList.contains("show")){
+
+            showConfirm({
+
+                titleText:"Show On Screen",
+
+                messageText:"Show this request on the LED screen again?",
+
+                confirmText:"Show",
+
+                type:"approve",
+
+                onConfirm:async()=>{
+
+                    await showOnScreen(id);
+
+                }
+
+            });
+
+            return;
 
         }
 
