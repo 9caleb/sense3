@@ -82,27 +82,67 @@ export function createCard(request){
         <div class="action">
 
             ${
+
                 status==="pending"
+
                 ?`
 
-                <button
-                    class="approve"
-                    data-id="${request.id}">
+                    <button
+                        class="approve"
+                        data-id="${request.id}">
 
-                    ✓
+                        ✓
 
-                </button>
+                    </button>
 
-                <button
-                    class="reject"
-                    data-id="${request.id}">
+                    <button
+                        class="reject"
+                        data-id="${request.id}">
 
-                    ✕
+                        ✕
 
-                </button>
+                    </button>
 
                 `
-                :""
+
+                : status==="approved"
+
+                ?`
+
+                    ${
+
+                        request.screenVisible
+
+                        ?`
+
+                        <button
+                            class="hide"
+                            data-id="${request.id}">
+
+                            👁
+
+                        </button>
+
+                        `
+
+                        :`
+
+                        <button
+                            class="show"
+                            data-id="${request.id}">
+
+                            📺
+
+                        </button>
+
+                        `
+
+                    }
+
+                `
+
+                :``
+
             }
 
             <button
