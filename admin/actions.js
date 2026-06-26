@@ -8,7 +8,9 @@ import {
 
     rejectRequest,
 
-    removeRequest
+    removeRequest,
+
+    hideFromScreen
 
 } from "./firebase.js";
 
@@ -47,6 +49,32 @@ export function bindActions(){
                 onConfirm:async()=>{
 
                     await approveRequest(id);
+
+                }
+
+            });
+
+        }
+
+        // -----------------
+        // Hide From Screen
+        // -----------------
+
+        if(button.classList.contains("hide")){
+
+            showConfirm({
+
+                titleText:"Remove From Screen",
+
+                messageText:"Hide this request from the LED screen?",
+
+                confirmText:"Hide",
+
+                type:"delete",
+
+                onConfirm:async()=>{
+
+                    await hideFromScreen(id);
 
                 }
 
