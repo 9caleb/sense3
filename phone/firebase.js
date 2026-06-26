@@ -47,6 +47,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // =========================
+// Submit Request
+// =========================
 
 export async function submitRequest(data){
 
@@ -63,6 +65,8 @@ export async function submitRequest(data){
             song:data.song,
 
             status:"pending",
+
+            screenVisible:false,
 
             createdAt:serverTimestamp()
 
