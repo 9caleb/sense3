@@ -6,29 +6,35 @@ import { formatTime } from "./cardUI.js";
 
 export function createCard(request){
 
-    const row = document.createElement("div");
+    const row=document.createElement("div");
 
-    row.className = "requestRow";
+    row.className="requestRow";
 
-    row.dataset.id = request.id;
+    row.innerHTML=`
 
-    row.innerHTML = `
+        <div class="col">
 
-        <div class="col time">
+            <div class="time">
 
-            ${formatTime(request.createdAt)}
+                ${formatTime(request.createdAt)}
 
-        </div>
-
-        <div
-            class="col name"
-            style="color:${getNameColor(request.name)}">
-
-            ${request.name || "-"}
+            </div>
 
         </div>
 
-        <div class="col request">
+        <div class="col">
+
+            <div
+                class="name"
+                style="color:${getNameColor(request.name)}">
+
+                ${request.name || "-"}
+
+            </div>
+
+        </div>
+
+        <div class="col">
 
             <div class="artist">
 
@@ -44,7 +50,7 @@ export function createCard(request){
 
         </div>
 
-        <div class="col status">
+        <div class="col">
 
             <span class="statusBadge ${request.status}">
 
@@ -54,21 +60,23 @@ export function createCard(request){
 
         </div>
 
-        <div class="col action">
+        <div class="action">
 
-            ${
-                request.status==="pending"
-                ?`
-                <button class="approve" data-id="${request.id}">
-                    ✓
-                </button>
+            <button
+                class="approve"
+                data-id="${request.id}">
 
-                <button class="reject" data-id="${request.id}">
-                    ✕
-                </button>
-                `
-                :""
-            }
+                ✓
+
+            </button>
+
+            <button
+                class="reject"
+                data-id="${request.id}">
+
+                ✕
+
+            </button>
 
             <button
                 class="delete"
