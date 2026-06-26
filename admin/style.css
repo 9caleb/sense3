@@ -424,7 +424,7 @@ body{
 
 }
 
-/* ---------------- MODAL ---------------- */
+/* ================= MODAL ================= */
 
 .modal{
 
@@ -432,13 +432,13 @@ body{
 
     inset:0;
 
-    background:rgba(0,0,0,.82);
-
     display:none;
 
     justify-content:center;
 
     align-items:center;
+
+    background:rgba(0,0,0,.82);
 
     z-index:999;
 
@@ -448,13 +448,27 @@ body{
 
     width:90%;
 
-    max-width:700px;
+    max-width:650px;
 
     background:#202020;
 
-    border-radius:20px;
+    border-radius:18px;
 
-    padding:26px;
+    padding:24px;
+
+}
+
+.modalContent h2{
+
+    margin-bottom:12px;
+
+}
+
+.modalContent p{
+
+    color:#bcbcbc;
+
+    margin-bottom:20px;
 
 }
 
@@ -466,7 +480,63 @@ body{
 
 }
 
-/* ---------------- LOGIN ---------------- */
+/* ================= BUTTON ================= */
+
+button{
+
+    border:none;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    border-radius:10px;
+
+    padding:12px 20px;
+
+    transition:.2s;
+
+}
+
+button:hover{
+
+    opacity:.9;
+
+}
+
+.approve{
+
+    background:#18b56a;
+
+}
+
+.reject{
+
+    background:#d33b3b;
+
+}
+
+.delete{
+
+    background:#4b4b4b;
+
+}
+
+.view{
+
+    background:linear-gradient(
+
+        90deg,
+
+        #6d0d0d,
+
+        #b41717
+
+    );
+
+}
+
+/* ================= LOGIN ================= */
 
 .login{
 
@@ -488,9 +558,9 @@ body{
 
     background:#242424;
 
-    padding:35px;
+    border-radius:18px;
 
-    border-radius:22px;
+    padding:34px;
 
 }
 
@@ -508,15 +578,15 @@ body{
 
     margin-bottom:18px;
 
-    background:#2c2c2c;
-
     border:none;
 
-    color:white;
+    border-radius:10px;
 
-    padding:0 15px;
+    padding:0 14px;
 
-    border-radius:12px;
+    background:#2d2d2d;
+
+    color:#fff;
 
 }
 
@@ -524,54 +594,64 @@ body{
 
     width:100%;
 
-    background:linear-gradient(90deg,#6d0d0d,#b41717);
+    background:linear-gradient(
+
+        90deg,
+
+        #6d0d0d,
+
+        #b41717
+
+    );
 
 }
 
-/* ---------------- RESPONSIVE ---------------- */
+/* ================= RESPONSIVE ================= */
 
-@media(max-width:768px){
+@media(max-width:1000px){
 
-.header{
+    .header{
 
-    padding:18px;
+        flex-direction:column;
 
-    flex-direction:column;
+        height:auto;
 
-    height:auto;
+        gap:18px;
 
-    gap:15px;
+        padding:20px;
 
-}
+    }
 
-.tabs{
+    .headerRight{
 
-    padding:18px;
+        flex-wrap:wrap;
 
-}
+        justify-content:center;
 
-.list{
+    }
 
-    padding:18px;
+    .tabs{
 
-}
+        flex-wrap:wrap;
 
-.card{
+    }
 
-    padding:20px;
+    .requestRow,
 
-}
+    .headerRow{
 
-.actions{
+        grid-template-columns:
 
-    flex-direction:column;
+            80px
 
-}
+            140px
 
-button{
+            1fr
 
-    width:100%;
+            120px
 
-}
+            120px;
+
+    }
 
 }
