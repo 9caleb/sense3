@@ -2,7 +2,10 @@
 // admin/render/card.js
 // =========================
 
-import { formatTime } from "./cardUI.js";
+import {
+    formatTime,
+    getNameColor
+} from "./cardUI.js";
 
 export function createCard(request){
 
@@ -10,80 +13,74 @@ export function createCard(request){
 
     row.className="requestRow";
 
+    row.dataset.id=request.id;
+
     row.innerHTML=`
 
-        <div class="col">
+        <div class="col time">
 
-            <div class="time">
-
-                ${formatTime(request.createdAt)}
-
-            </div>
+            ${formatTime(request.createdAt)}
 
         </div>
 
-        <div class="col">
+        <div
+            class="col name"
+            style="color:${getNameColor(request.name)}">
 
-            <div
-                class="name"
-                style="color:${getNameColor(request.name)}">
-
-                ${request.name || "-"}
-
-            </div>
+            ${(request.name||"-").toUpperCase()}
 
         </div>
 
-        <div class="col">
+        <div class="col request">
 
             <div class="artist">
 
-                ${request.artist || "-"}
+                ${request.artist||"-"}
 
             </div>
 
             <div class="song">
 
-                ${request.song || "-"}
+                ${request.song||"-"}
 
             </div>
 
         </div>
 
-        <div class="col">
+        <div class="col status">
 
-            <span class="statusBadge ${request.status}">
+            <span class="statusBadge ${request.status||"pending"}">
 
-                ${(request.status || "pending").toUpperCase()}
+                ${(request.status||"pending").toUpperCase()}
 
             </span>
 
         </div>
 
-        <div class="action">
+        <div class="col action">
 
-            <button
-                class="approve"
-                data-id="${request.id}">
+            ${
+                request.status==="pending"
+                ?`
+                    <button
+                        class="approve"
+                        data-id="${request.id}">
+                        ✓
+                    </button>
 
-                ✓
-
-            </button>
-
-            <button
-                class="reject"
-                data-id="${request.id}">
-
-                ✕
-
-            </button>
+                    <button
+                        class="reject"
+                        data-id="${request.id}">
+                        ✕
+                    </button>
+                `
+                :""
+            }
 
             <button
                 class="delete"
                 data-id="${request.id}">
-
                 🗑
-
             </button>
 
         </div>
@@ -91,51 +88,5 @@ export function createCard(request){
     `;
 
     return row;
-
-}
-
-// =========================
-// Name Color
-// =========================
-
-function getNameColor(name){
-
-    const colors=[
-
-        "#4FC3F7",
-
-        "#F06292",
-
-        "#81C784",
-
-        "#FFD54F",
-
-        "#BA68C8",
-
-        "#FF8A65",
-
-        "#4DD0E1",
-
-        "#AED581"
-
-    ];
-
-    if(!name){
-
-        return "#ffffff";
-
-    }
-
-    let hash=0;
-
-    for(let i=0;i<name.length;i++){
-
-        hash=name.charCodeAt(i)+((hash<<5)-hash);
-
-    }
-
-    hash=Math.abs(hash);
-
-    return colors[hash%colors.length];
 
 }
