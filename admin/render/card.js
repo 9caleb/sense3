@@ -19,6 +19,8 @@ export function createCard(request){
 
     const status=request.status || "pending";
 
+    const visible=request.screenVisible===true;
+
     row.innerHTML=`
 
         <!-- TIME -->
@@ -82,14 +84,13 @@ export function createCard(request){
         <div class="action">
 
             ${
-
                 status==="pending"
-
                 ?`
 
                     <button
                         class="approve"
-                        data-id="${request.id}">
+                        data-id="${request.id}"
+                        title="Approve">
 
                         ✓
 
@@ -97,57 +98,38 @@ export function createCard(request){
 
                     <button
                         class="reject"
-                        data-id="${request.id}">
+                        data-id="${request.id}"
+                        title="Reject">
 
                         ✕
 
                     </button>
 
                 `
+                :""
+            }
 
-                : status==="approved"
-
+            ${
+                status==="approved"
                 ?`
 
-                    ${
+                    <button
+                        class="${visible ? "hide" : "show"}"
+                        data-id="${request.id}"
+                        title="${visible ? "Hide from Screen" : "Show on Screen"}">
 
-                        request.screenVisible
+                        ${visible ? "👁" : "📺"}
 
-                        ?`
-
-                        <button
-                            class="hide"
-                            data-id="${request.id}">
-
-                            👁
-
-                        </button>
-
-                        `
-
-                        :`
-
-                        <button
-                            class="show"
-                            data-id="${request.id}">
-
-                            📺
-
-                        </button>
-
-                        `
-
-                    }
+                    </button>
 
                 `
-
-                :``
-
+                :""
             }
 
             <button
                 class="delete"
-                data-id="${request.id}">
+                data-id="${request.id}"
+                title="Delete">
 
                 🗑
 
