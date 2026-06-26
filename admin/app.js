@@ -100,8 +100,6 @@ function updateStats(list){
 
     const rejected=list.filter(r=>r.status==="rejected").length;
 
-    const tips=list.filter(r=>(Number(r.tipAmount)||0)>0).length;
-
     const total=list.length;
 
     setText("totalRequests",total);
@@ -111,8 +109,6 @@ function updateStats(list){
     setText("approvedRequests",approved);
 
     setText("rejectedRequests",rejected);
-
-    setText("tipRequests",tips);
 
 }
 
