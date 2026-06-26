@@ -4,167 +4,260 @@
 <meta charset="UTF-8">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  overflow: hidden;
-  background: black;
+
+html,
+body{
+
+    margin:0;
+
+    width:100%;
+
+    height:100%;
+
+    overflow:hidden;
+
+    background:#000;
+
+    font-family:
+
+        Inter,
+
+        Arial,
+
+        sans-serif;
+
 }
 
-/* layout */
-.container {
-  display: flex;
-  height: 100vh;
+/* ========================= */
+
+.screen{
+
+    position:relative;
+
+    width:100vw;
+
+    height:100vh;
+
+    overflow:hidden;
+
 }
 
-/* LEFT */
-.left {
-  width: 38%;
-  position: relative;
-  overflow: hidden;
+/* ========================= */
+
+.videoLayer{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    transition:opacity .8s ease;
+
+    z-index:1;
+
 }
 
-.left video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+#videoA{
+
+    opacity:1;
+
 }
 
-/* 左边暗 */
-.left::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
+#videoB{
+
+    opacity:0;
+
 }
 
-/* 左边内容 */
-.leftContent {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
+/* ========================= */
+
+.overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:2;
+
+    background:
+
+        linear-gradient(
+
+            180deg,
+
+            rgba(0,0,0,.15),
+
+            rgba(0,0,0,.72)
+
+        );
+
 }
 
-/* LOGO（更大） */
-.logoLeft img {
-  width: 110px;
-  margin-bottom: 35px;
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.25));
+/* ========================= */
+
+.feed{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:3;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:flex-start;
+
+    gap:18px;
+
+    padding:
+
+        24px
+
+        18px;
+
+    overflow:hidden;
+
 }
 
-/* QR */
-.qr {
-  width: 65%;
+/* ========================= */
+
+.request{
+
+    padding-bottom:14px;
+
+    border-bottom:
+
+        1px solid
+
+        rgba(255,255,255,.08);
+
+    opacity:0;
+
+    animation:
+
+        fadeIn
+
+        .5s
+
+        ease
+
+        forwards;
+
 }
 
-/* TEXT */
-.leftContent p {
-  margin-top: 20px;
-  font-size: 22px;
-  letter-spacing: 3px;
-  opacity: 0.85;
+/* ========================= */
+
+.name{
+
+    font-size:18px;
+
+    font-weight:800;
+
+    letter-spacing:1px;
+
+    text-transform:uppercase;
+
 }
 
-/* RIGHT */
-.right {
-  width: 62%;
-  position: relative;
-  overflow: hidden;
+/* ========================= */
+
+.artist{
+
+    margin-top:8px;
+
+    font-size:13px;
+
+    color:
+
+        rgba(255,255,255,.68);
+
+    font-weight:500;
+
+    line-height:1.2;
+
 }
 
-/* video */
-.videoLayer {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.8s ease;
-  z-index: 1;
+/* ========================= */
+
+.song{
+
+    margin-top:3px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:#fff;
+
+    line-height:1.1;
+
 }
 
-#videoA { opacity: 1; }
-#videoB { opacity: 0; }
+/* ========================= */
 
-/* 🔥 修好：覆盖整个右边 */
-.right::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 2;
-  pointer-events: none;
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateY(14px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateY(0);
+
+    }
+
 }
 
-/* feed */
-.feed {
-  position: relative;
-  z-index: 3;
-  color: white;
-  padding: 180px 10% 60px 10%;
-}
-
-/* request */
-.request {
-  margin-bottom: 18px;
-}
-
-.name {
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.song {
-  margin-top: 8px;
-  font-size: 26px;
-  padding-left: 20px;
-  color: white;
-}
-
-.tip {
-  margin-top: 5px;
-  font-size: 14px;
-  color: orange;
-}
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="screen">
 
-  <!-- LEFT -->
-  <div class="left">
-    <video src="https://res.cloudinary.com/dbdiasouj/video/upload/v1782338377/lefft_ukxhta.mp4" autoplay muted loop playsinline></video>
+    <video
+        id="videoA"
+        class="videoLayer"
+        autoplay
+        muted
+        playsinline
+    ></video>
 
-    <div class="leftContent">
-      <div class="logoLeft">
-        <img src="logo.png">
-      </div>
+    <video
+        id="videoB"
+        class="videoLayer"
+        muted
+        playsinline
+    ></video>
 
-      <img class="qr" src="qr.png">
+    <div class="overlay"></div>
 
-      <p>REQUEST A SONG</p>
-    </div>
-  </div>
-
-  <!-- RIGHT -->
-  <div class="right">
-
-    <video id="videoA" class="videoLayer" autoplay muted playsinline></video>
-    <video id="videoB" class="videoLayer" muted playsinline></video>
-
-    <div class="feed" id="feed"></div>
-
-  </div>
+    <div
+        class="feed"
+        id="feed"
+    ></div>
 
 </div>
-
+  
 <script>
 const sources = [
   "https://res.cloudinary.com/dbdiasouj/video/upload/v1782338855/club1_zusyai.mp4",
